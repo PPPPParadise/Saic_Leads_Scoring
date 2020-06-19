@@ -182,5 +182,7 @@ DataPredicting.feature_engineering()
 
 # Output and save
 result = DataPredicting.predicting(pca_filepath, model_filepath, result_path)
+result = hc.createDataFrame(result)
+result.withColumn("pt",pd.datetime.now())
 result.write.saveAsTable("marketing_modeling.mm_model_result", format = "Hive", mode = "append", partitionBy = ["pt"])
 print ('Result saved!')
