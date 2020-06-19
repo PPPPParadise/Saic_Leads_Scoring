@@ -181,6 +181,6 @@ DataPredicting = DataPredicting(auto_data)
 DataPredicting.feature_engineering()
 
 # Output and save
-DataPredicting.predicting(pca_filepath, model_filepath, result_path)
+result = DataPredicting.predicting(pca_filepath, model_filepath, result_path)
 result.write.saveAsTable("marketing_modeling.mm_model_result", format = "Hive", mode = "append", partitionBy = ["pt"])
 print ('Result saved!')
