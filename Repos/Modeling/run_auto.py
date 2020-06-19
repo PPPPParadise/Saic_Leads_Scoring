@@ -25,7 +25,7 @@ from pyspark.sql.types import IntegerType, FloatType, DoubleType, ArrayType, Str
 
 spark_session = SparkSession.builder.enableHiveSupport().appName("test").config("spark.driver.memory","30g").getOrCreate()
 hc = HiveContext(spark_session.sparkContext)
-
+hc.setConf("hive.exec.dynamic.partition.mode", "nonstrict")
 
 ##########################################
 #           Set Path           #
@@ -193,7 +193,8 @@ DataPredicting.feature_engineering()
 
 # Output and save
 result = DataPredicting.predicting(pca_filepath, model_filepath, result_path)
+print (result.shape)
 result = hc.createDataFrame(result)
-result.withColumn("pt",pd.datetime.now())
+#result.show(100)
 result.write.saveAsTable("marketing_modeling.mm_model_result", format = "Hive", mode = "append", partitionBy = ["pt"])
 print ('Result saved!')

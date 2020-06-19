@@ -416,7 +416,9 @@ class DataPredicting():
         self.X = self.pca.fit_transform(self.X)
         self.Y = self.rf_best_model.predict_proba(self.X)
         result = pd.DataFrame([i[1] for i in self.Y],index = self.mobiles, columns = ['pred_score'])
+        result = result.reset_index()
         result['result_date'] = pd.datetime.now()
+        result['pt'] = datetime.date.today()
         print ('Predicted end!')
         
         return result
