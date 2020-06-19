@@ -15,6 +15,17 @@ from data_preparation_all import AutohomePreparation, CDPPreparation
 from data_engineering_auto import DataEngineering
 from model_predict_auto import DataPredicting
 
+import os
+os.environ["JAVA_HOME"] = "/usr/java/jdk1.8.0_181-cloudera"
+
+from pyspark import SparkContext
+from pyspark.sql import SparkSession,HiveContext,Window
+from pyspark.sql import functions as fn
+from pyspark.sql.types import IntegerType, FloatType, DoubleType, ArrayType, StringType, DecimalType,MapType
+
+spark_session = SparkSession.builder.enableHiveSupport().appName("test").config("spark.driver.memory","30g").getOrCreate()
+hc = HiveContext(spark_session.sparkContext)
+
 
 ##########################################
 #           Set Path           #
