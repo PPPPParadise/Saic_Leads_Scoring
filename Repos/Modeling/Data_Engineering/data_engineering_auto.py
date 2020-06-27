@@ -64,7 +64,6 @@ class DataEngineering:
                 index_list = df[df[col].isnull() == False].index
                 df.loc[index_list,col] = 1
                 df.loc[~df.index.isin(index_list),col] = 0
-
                 return df[col]
             except:
                 return df[col]
@@ -83,12 +82,11 @@ class DataEngineering:
                 bins = list(set(bins))
                 bins.sort()
                 df[col]=pd.cut(table[col],bins = bins)
-
                 return df[col]
             except:
                 return df[col]
             
-        def datatime_to_weekday_and_month(data, col,col_wk_lst,col_mon_lst):
+        def datatime_to_weekday_and_month(data,col,col_wk_lst,col_mon_lst):
             """
             Transfer datetime columns in list into month and weekday classes or binary classes given:
             date(dataframe): input dataframe
@@ -106,7 +104,7 @@ class DataEngineering:
                     data[col_name_mon] = data[col].dt.month
                     col_mon_lst.append(col_name_mon)
                 except:
-                    logger.info('The column {} failed to transform!'.format(col))
+                    logger.warning('The column %s was failed to be transferred!',col)
             return data, col_wk_lst, col_mon_lst
 
         def cols_to_multi_class(df,col_lst,bins_lst,binary = False):
@@ -139,7 +137,7 @@ class DataEngineering:
                     for k in range(len(dic)):
                         for j in dic[k]:
                             dic_for_col[j]=str(dic[k])
-                    df[col] = df[col].apply(lambda x: dic_for_col[x] if x>=0 else np.nan)
+                    df[col] = df[col].apply(lambda x: dic_for_col[x] if x >= 0 else np.nan)
             return df
         
         
@@ -147,16 +145,15 @@ class DataEngineering:
         col_wk_lst = []
         col_mon_lst = []
         for col in datetime_list:
-            self.wide_info_auto, col_wk_lst, col_mon_lst = datatime_to_weekday_and_month(self.wide_info_auto,                                                                      col,col_wk_lst, col_mon_lst)
+            self.wide_info_auto,col_wk_lst,col_mon_lst = datatime_to_weekday_and_month(self.wide_info_auto,col,col_wk_lst,col_mon_lst)
         self.wide_info_auto = cols_to_multi_class(self.wide_info_auto, datetime_list_bi, datetime_list_bi, binary = True)   
         self.wide_info_auto = cols_to_multi_value(self.wide_info_auto, datetime_list_multi, datetime_dic_lst)
         logger.info('Auto datetime transformation end!')
-
         
         #transform province column
         province_dic_list = {k.encode('utf-8'): v for k, v in province_dic_list.items()}
         self.wide_info_auto['c_province'] = self.wide_info_auto['c_province'].\
-        apply(lambda x: province_dic_list[x] if isinstance(x,str) else np.nan)
+        apply(lambda x: province_dic_list[x] if isinstance(x, str) else np.nan)
         logger.info ('Auto province transformation end!')        
             
         #transform age column
@@ -172,11 +169,11 @@ class DataEngineering:
         age_dic['56-60岁'] = pd.Interval(left=35, right=60)
         age_dic['60岁以上'] = pd.Interval(left=60, right=100)
 
-        self.wide_info_auto['c_age'] = self.wide_info_auto['c_age'].apply(lambda x: age_dic[x] if isinstance(x,str) else np.nan)
+        self.wide_info_auto['c_age'] = self.wide_info_auto['c_age'].apply(lambda x: age_dic[x] if isinstance(x, str) else np.nan)
         logger.info ('Auto age transformation end!')
 
         #transform other multi-class columns
-        self.wide_info_auto = cols_to_multi_class(self.wide_info_auto, cols_to_multi,bins_for_multi,binary = False)
+        self.wide_info_auto = cols_to_multi_class(self.wide_info_auto, cols_to_multi,bins_for_multi, binary = False)
         self.wide_info_auto = cols_to_multi_class(self.wide_info_auto, cols_to_bi, None, binary = True)
         logger.info ('Auto multiclass transformation end!')
         

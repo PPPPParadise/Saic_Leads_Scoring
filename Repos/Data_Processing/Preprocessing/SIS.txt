@@ -1,3 +1,4 @@
+git clone -b 分支名 完整http的URL名
 select task_id,cust_id,status_task,status_handle from dtwarehouse.ods_smcsc_tsk_task_item
 select id,mobile from dtwarehouse.ods_smcsc_tsk_customer    
 select from dtwarehouse.ods_smcsc_task_item_ext
@@ -6,7 +7,7 @@ select ob_result_code,ob_count from dtwarehouse.ods_smcsc_tsk_task_item_process
 select from dtwarehouse.ods_smcsc_tsk_task
  
 select from dtwarehouse.voip_call_record  talk_length
-
+| grep -o "[^ ]\+\+[]\+*"
 
 select
     --count(*)
@@ -102,3 +103,9 @@ where b.task_type = '001'
 
 
 select count(*) from marketing_modeling.dlm_tmp_cust_cleansing where mobile regexp "^[1][35678][0-9]{9}$";
+
+hadoop fs -cat hdfs://tcluster/warehouse/tablespace/managed/hive/marketing_modeling.db/app_model_input_data/*  >  app_model_input_data.txt
+
+ sed -i 's/\\N/NULL/g' app_model_input_data.txt 
+
+prod/Repos/Data_Processing/

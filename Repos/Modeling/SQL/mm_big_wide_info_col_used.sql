@@ -1,3 +1,7 @@
+set mapreduce.map.memory.mb=4096;
+set mapreduce.reduce.memory.mb=8192;
+set mapreduce.job.queuename=${queuename};
+
 DROP TABLE IF EXISTS marketing_modeling.app_model_input_data;
 CREATE TABLE IF NOT EXISTS marketing_modeling.app_model_input_data 
 ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
@@ -80,5 +84,5 @@ SELECT
   c_register_time,
   c_last_reach_platform
 FROM marketing_modeling.app_big_wide_info
-WHERE SUBSTR(mobile, 0, 1) = 1 AND LENGTH(mobile) = 11
+WHERE mobile regexp "^[1][35678][0-9]{9}$"
   and pt='${pt}'

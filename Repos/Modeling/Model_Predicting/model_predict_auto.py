@@ -35,8 +35,6 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-sys.path.insert(1, '/path/to/application/app/folder')
-
 
 ###########################################
 #           Set up Logs          #
@@ -91,7 +89,7 @@ class DataPredicting():
 
             # make sure we have all the columns we need
             if set(training_cols) - set(X.columns) == set():
-                logger.info('Add missing columns')
+                logger.debug('Add missing columns')
                 
             extra_cols = set(X.columns) - set(training_cols) 
             if extra_cols:
@@ -109,15 +107,16 @@ class DataPredicting():
 
         
     def predicting(self, pca_filepath, model_filepath):
-        self.pca = joblib.load(pca_filepath)
-        self.rf_best_model = joblib.load(model_filepath)
-        
-        self.X = self.pca.fit_transform(self.X)
-        self.Y = self.rf_best_model.predict_proba(self.X)
-        result = pd.DataFrame([i[1] for i in self.Y],index = self.mobiles, columns = ['pred_score'])
-        result = result.reset_index()
-        result['result_date'] = pd.datetime.now()
-        result['pt'] = datetime.date.today().strftime("%Y%m%d")
-        logger.info('Autohome predicted end!')
-        
-        return result               
+        try:
+            self.pca = joblib.load(pca_filepath)
+            self.rf_best_model = joblib.load(model_filepath)
+            self.X = self.pca.fit_transform(self.X)
+            self.Y = self.rf_best_model.predict_proba(self.X)
+            result = pd.DataFrame([i[1] for i in self.Y],index = self.mobiles, columns = ['pred_score'])
+            result = result.reset_index()
+            result['result_date'] = pd.datetime.now()
+            result['pt'] = datetime.date.today().strftime("%Y%m%d")
+            logger.info('Autohome predicted end!')
+            return result
+        except:
+            logger.critical('Prediction of model autohome was not fisnished!')           

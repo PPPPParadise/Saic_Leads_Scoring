@@ -55,6 +55,8 @@ class DataEngineeringOthers:
                
         # load data
         self.data = self.data[[i for i in list(pd.read_csv(remained_col)['col_used']) if i in self.data.columns]]
+        logger.warning('Features %s were not imported!', \
+                       str([i for i in list(pd.read_csv(remained_col)['col_used']) if i not in self.data.columns]))
               
         # deal with datetime features
         for col in datetime_list:
@@ -62,16 +64,21 @@ class DataEngineeringOthers:
                                          else np.nan for i in pd.to_datetime(self.data[col])]
         
         # convert string to int by replacing
-        self.data = self.data.replace({'d_cust_type':{60261001:1, 60261002:2},
-                                      'c_sex':{'性别为男性':1, '性别为女性':2},
-                                      'c_age':{'20岁以下':1, '21-25岁':3, '26-30岁':3, '31-35岁':3, '36-40岁':3, 
-                                            '41-45岁':3, '46-50岁':2, '51-55岁':2, '56-60岁':2, '60岁以上':4},
-                                      'c_province':{'贵州省':1, '云南省':1, '四川省':1, '重庆市':1, '福建省':2, '海南省':2, 
-                                                '广西壮族自治区':2, '安徽省':2, '江西省':2, '广东省':2, '上海市':2, 
-                                                '西藏自治区':2, '湖北省':2, '江苏省': 2},
-                                      'c_city_level':{'一线城市':3, '新一线城市':2, '二线城市':3, '三线城市':3, 
-                                                 '四线城市':1, '五线城市':1},
-                                      'd_is_deposit_order':{0:2}})
+        str_feature_dic = {'d_cust_type':{60261001:1, 60261002:2}, 
+                     'c_sex':{'性别为男性':1, '性别为女性':2},
+                     'c_age':{'20岁以下':1, '21-25岁':3, '26-30岁':3, '31-35岁':3, '36-40岁':3, 
+                           '41-45岁':3, '46-50岁':2, '51-55岁':2, '56-60岁':2, '60岁以上':4},
+                     'c_province':{'贵州省':1, '云南省':1, '四川省':1, '重庆市':1, '福建省':2, '海南省':2, 
+                              '广西壮族自治区':2, '安徽省':2, '江西省':2, '广东省':2, '上海市':2, 
+                              '西藏自治区':2, '湖北省':2, '江苏省': 2},
+                     'c_city_level':{'一线城市':3, '新一线城市':2, '二线城市':3, '三线城市':3, '四线城市':1, '五线城市':1},
+                     'd_is_deposit_order':{0:2}}               
+        transfer_list = ['d_cust_type', 'c_sex', 'c_age', 'c_province', 'c_city_level', 'd_is_deposit_order']
+        for col in transfer_list:
+            try:
+                self.data[col] = self.data[col].replace(str_feature_dic[col])
+            except:
+                logger.warning('Feature %s is all None', col)                
 
         # deal with province
         self.data['c_province'] = [0 if i is np.nan else 3 if isinstance(i, int) == False else i for i in self.data['c_province']]
@@ -86,8 +93,9 @@ class DataEngineeringOthers:
         
         # bin numerical column
         with open(boundary_file_path) as dict_file:
-            boundary_dict = yaml.full_load(dict_file)       
-        for col in boundary_dict.keys():
+            boundary_dict = yaml.full_load(dict_file)
+        boundary_col = [i for i in boundary_dict.keys() if i in self.data.columns]
+        for col in boundary_col:
             self.data[col] = pd.cut(self.data[col],boundary_dict[col])       
         
         logger.info('Non-Autohome feature engineering end!')

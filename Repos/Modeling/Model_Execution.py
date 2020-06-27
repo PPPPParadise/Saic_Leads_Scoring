@@ -123,7 +123,11 @@ DataPredictingOthers.feature_engineering()
 # Output and save
 auto_result = DataPredicting.predicting(a_pca_filepath, a_model_filepath)
 others_result = DataPredictingOthers.predicting(o_pca_filepath, o_model_filepath)
-result = pd.concat([auto_result, others_result])
-result = hc.createDataFrame(result)
-result.write.insertInto("marketing_modeling.app_model_result")
-logger.info('Result saved!')
+
+try:
+    result = pd.concat([auto_result, others_result])
+    result = hc.createDataFrame(result)
+    result.write.insertInto("marketing_modeling.app_model_result")
+    logger.info('Result saved!')
+except:
+    logger.critical('Prediction failed, please check !!!!!')

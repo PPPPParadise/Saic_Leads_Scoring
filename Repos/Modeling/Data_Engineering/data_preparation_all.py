@@ -231,8 +231,7 @@ class CDPPreparation:
         vertical_media = config['semi_feature_col']['vertical_media']
         offcial_online = config['semi_feature_col']['offcial_online']
         models = config['semi_feature_col']['models']
-        cdp_columns = config['semi_feature_col']['cdp_columns']
-        
+        cdp_columns = config['semi_feature_col']['cdp_columns']        
         
         # city and age        
         ct_lv = pd.read_csv(city_level, sep = '\t')

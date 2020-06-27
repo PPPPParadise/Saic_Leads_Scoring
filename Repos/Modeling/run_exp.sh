@@ -1,4 +1,6 @@
 #!/bin/bash
+queuename=default
+#queuename=malg
 pt=$3
 if [ `expr length $pt` == 8 ] && date -d $pt +%Y%m%d > /dev/null 2>&1; then
     echo $pt; 
