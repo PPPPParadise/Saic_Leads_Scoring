@@ -1,0 +1,59 @@
+col_used
+d_visit_count_d30
+d_leads_count_(-499.0, 1.5]
+d_leads_count_(2.5, 442.1]
+d_leads_dtbt_count_(-499.0, 1.5]
+d_leads_dtbt_level_1_(-499.5, 1.5]
+d_card_ttl_(1.5, 2.5]
+d_visit_ttl_(-499.0, 1.5]
+d_followup_ttl_(-999.0, 2.5]
+d_followup_ttl_(2.5, 4.5]
+d_followup_ttl_(5.5, 23.5]
+d_is_deposit_order_2.0
+d_followup_d7_(-499.0, 1.5]
+d_followup_d7_(1.5, 2.5]
+d_followup_d7_(2.5, 3.5]
+d_followup_d15_(-499.0, 1.5]
+d_followup_d15_(1.5, 2.5]
+d_followup_d15_(2.5, 4.5]
+d_followup_d30_(1.5, 4.5]
+d_followup_d30_(4.5, 5.5]
+d_followup_d30_(5.5, 8.5]
+d_followup_d60_(1.5, 2.5]
+d_followup_d60_(2.5, 8.5]
+d_followup_d60_(8.5, 16.5]
+d_followup_d90_(-499.0, 2.5]
+d_followup_d90_(12.5, 20.5]
+d_followup_d90_(3.5, 12.5]
+d_firlead_dealf_diff_(58.5, 875.1]
+d_lastlead_dealf_diff_(55.5, 861.1]
+c_sex_1.0
+c_age_3.0
+c_city_1.0
+c_city_2.0
+c_province_1
+c_province_2
+c_province_3
+d_fir_visit_time_2.0
+d_fir_leads_time_1.0
+d_fir_leads_time_2.0
+c_MG6_0
+c_MG6_1
+c_vertical_media_0.0
+c_vertical_media_1.0
+c_city_level_1.0
+c_city_level_2.0
+c_city_level_3.0
+d_avg_leads_date_(-499.5, 0.005]
+d_leads_dtbt_coincide_(0.995, 1.1]
+d_avg_visit_date_(-499.5, 0.27]
+d_avg_fircard_firvisit_diff_(-706.0, 0.025]
+c_MGZS_0
+c_MGZS_1
+d_fir_sec_leads_diff_(-499.5, 869.1]
+d_visit_dtbt_count_(-499.0, 22.1]
+d_avg_visit_dtbt_count_(-499.0, 190.1]
+d_visit_count_d90_(-499.0, 74.1]
+c_leads_source_nums_(0.5, 6.1]
+d_fir_card_time_1
+d_fir_card_time_2

@@ -1,0 +1,157 @@
+# Created on Jun 24 2020
+# author: Xiaofeng XU / Ruoyu ZHU
+
+# Config.file consists of six parts:
+# Part-1 Input data: big wide table that contains all features of model needed
+# Part-2 Model files: all model files
+# Part-3 Input data columns
+# Part-4 Columns used in data preparation part
+# Part-5 Supporting data in feature engineering part
+# Part-6 Columns used in model predicting part
+
+
+# Part 1 - Input tables :
+# - Big wide table of targeted customers 
+input_data:
+  big_wide_table: 'app_model_input_data.txt'
+
+      
+# Part 2 - Model files:
+# - PCA files of all sub-models
+# - Model files of all sub-models
+model_files:
+ auto_pca: 'Model_File/pca_auto.pkl'
+ auto_model: 'Model_File/rf_model_auto.pkl'
+ others_pca: 'Model_File/pca_others.pkl'
+ others_model: 'Model_File/rf_model_others.pkl'
+
+
+# Part 3 - Input data columns
+input_data_columns: 'Middle_Result_Data/input_data_columns.txt'
+
+
+# Part 4 - Columns used in data preparation part (semi-feature processing)
+semi_feature_col:
+ models: ["MGeHS","MGGT","MG锐腾","MGeMGHS","MGHS","MGeMG6","MGZS纯电动","MGZS","MG6"]
+ vertical_media: ['c_lead_sources_懂车帝','c_lead_sources_汽车之家','c_lead_sources_途虎','c_lead_sources_易车',
+                  'c_lead_sources_17汽车','c_lead_sources_太平洋','c_lead_sources_车享CRM（品牌馆，又叫电商）','c_lead_sources_爱卡']
+ offcial_online: ['c_lead_sources_名爵APP','c_lead_sources_官网']
+ cdp_columns: ["mobile","c_city","c_age","c_sex","c_province","c_city_level","c_MGeHS","c_MGGT","c_MG锐腾","c_MGeMGHS","c_MGHS",
+          "c_MGeMG6","c_MGZS纯电动","c_MGZS","c_MG6","c_last_reach_platform_MG服务号","c_last_reach_platform_MGAPP",
+          "c_last_reach_platform_MG官网","c_lead_sources_汽车之家","c_vertical_media","c_offcial_online","c_leads_source_nums"]
+
+
+# Part 5 - Supporting data in feature engineering part
+# - model autohome
+model_auto_feature_engineering:
+ model_auto_datetime_list : ['d_fir_leads_time','d_fir_card_time','d_fir_visit_time','d_fir_trail',
+                   'd_last_reservation_time','d_fir_dealfail_d','d_last_dealfail_d', 'd_fir_activity_time'] 
+ model_auto_datetime_list_bi : ['d_fir_leads_time_weekday','d_fir_card_time_weekday','d_fir_trail_weekday',
+ 'd_last_reservation_time_weekday','d_fir_dealfail_d_weekday']
+ model_auto_datetime_dic_lst : [[[1,2,3,4,5],[6],[7]],
+                    [[1,2,3,4,5],[6],[7]], 
+                    [[2],[1,3,6,7,8],[5,9,10],[11],[4,12]],
+                    [[2],[1,3,6,7,8],[5,9,10],[11],[4,12]],
+                    [[5,7,8],[2,3,6,9,10,11,12],[1,4]],
+                    [[4,5,7],[2,3,6],[8],[9,11],[10],[12],[1]],
+                    [[2,3,7,8,9],[1,4,5,6,10,11,12]],
+                    [[2,3],[4,7,8],[1,5,6,9,10,11,12]],
+                    [[3,6,7,8,9],[1,2,4,10,11],[5,12]],
+                    [[4,5],[2,3,6,7,8],[1,9,10,11],[12]]]
+ model_auto_datetime_list_multi: ['d_fir_visit_time_weekday', 'd_last_dealfail_d_weekday','d_fir_leads_time_month',
+                       'd_fir_card_time_month','d_fir_visit_time_month', 'd_fir_trail_month',
+                       'd_last_reservation_time_month', 'd_fir_dealfail_d_month', 'd_last_dealfail_d_month',
+                       'd_fir_activity_time_month']    
+ model_auto_province_dic_list : {"西藏自治区":1,"青海省":1,"上海市":1,"四川省":1,"贵州省":1,"安徽省":1,"河南省":1,
+                    "浙江省":1,"北京市":1,"广西壮族自治区":1,"山东省":1,
+                    "广东省":0, "江西省":0, "江苏省":0,"陕西省":0, "天津市":0,"云南省":0,"湖北省":0,
+                    "湖南省":0,"山西省":0,"福建省":0,"重庆市":0,
+                    "海南省":0,"内蒙古自治区":0,"河北省":0,"新疆维吾尔自治区":0,"吉林省":0,"宁夏回族自治区":0,
+                    "甘肃省":0, "辽宁省":0,"黑龙江省":0}
+ model_auto_bins_for_multi : [[-0.000001,0],
+                    [-0.000001,0],
+                    [-0.000001,0],
+                    [-0.000001,0],
+                    [-0.000001,0],
+                    [-0.000001,0],    
+                    [-0.000001,0],
+                    [-0.000001,0],
+                    [-0.000001,0],
+                    [-0.000001,0,1,2,3,4,5,6,7,8,9,10,30],
+                    [-0.000001,0,1,2,3,4,5,6,7,8,9,10,30],
+                    [-0.000001,0,2,3,10,30],
+                    [-0.000001,0,1,2,3,4,6,7,8,9,10,30],
+                    [-0.000001,0,1,2,3,4,6,8,9,10,30],
+                    [-0.000001,0,1,2,3,4,6,8,9,10,30],
+                    [-0.000001,0,0.5,0.8,0.9,1],
+                    [-0.000001,0,0.1,0.2,0.3,0.5,0.7,1,9],
+                    [-0.000001,0,0.9,1],
+                    [-100.000001,-100,-90,-0.000001,60,80,100],
+                    [-100.000001,-100,-90,-0.000001,20,40],
+                    [-0.000001,0,1,2,3,4,5,6,7,8,9,10,20],
+                    [-0.000001,0,1,2,3,4,5,6,7,8,9,10,20],
+                    [-0.000001,0,1,2,3,4,5,6,7,8,9,10,20,50,100],
+                    [-0.000001,10],
+                    [-0.000001,0,1,6],
+                    [-0.000001,0,1],
+                    [-0.000001,0,1],
+                    [-0.000001,0,1],
+                    [-0.000001,0],
+                    [-0.000001,0,1,2,3,4,5],
+                    [-0.000001,0,1,2,3,4,5,6,7,8,9,10],
+                    [-0.000001,1,2,3,4,5,6,7,8,9,10,15,20],
+                    [-0.000001,1,3,5,7,9,11,15,20],
+                    [-0.000001,1,5,10,15,20,30,50],
+                    [-0.000001,1,10,20,30,40,50],
+                    [-0.000001,1,10,20,30,40,50,60]]
+ model_auto_cols_to_multi : ["d_fir_sec_leads_diff","d_avg_leads_date","d_avg_visit_date","d_avg_fircard_firvisit_diff",
+                   "d_firleads_firvisit_diff","d_fircard_firvisit_diff","d_avg_firleads_firvisit_diff",
+                    "d_last_dfail_dealf_diff","d_dealf_lastvisit_diff", "d_firlead_dealf_diff",
+                    "d_lastlead_dealf_diff","d_dealf_firvisit_diff","d_lasttrail_dealf_diff",
+                    "d_last_activity_dealf_diff","d_fir_activity_dealf_diff", "d_leads_dtbt_coincide",
+                    "d_leads_dtbt_ppt","d_deal_fail_ppt", "h_focusing_avg_diff",
+                    "h_focusing_max_diff", "d_leads_dtbt_count", "d_leads_dtbt_level_1",
+                    "d_leads_count","d_trail_book_tll","h_model_nums",
+                    "d_visit_ttl","d_followup_ttl","d_activity_ttl",
+                    "h_max_inquiry_time","h_ttl_inquiry_time","d_card_ttl",
+                     'd_followup_d7','d_followup_d15','d_followup_d30','d_followup_d60','d_followup_d90']
+ model_auto_cols_to_bi : ["d_fir_leads_deal_diff_y","d_avg_visit_dtbt_count"]
+
+# - model others
+model_others_feature_engineering:
+ model_others_bin_boundary: 'Middle_Result_Data/model_others_bin_boundary.yaml'
+ datetime_list: ['d_fir_card_time', 'd_fir_leads_time', 'd_fir_visit_time']
+ binary_features: ['d_fir_sec_visit_diff','d_avg_fir_sec_visit_diff','d_avg_firleads_firvisit_diff','d_trail_count_d30',
+             'd_visit_count_d15','d_firfollow_dealf_diff', 'd_firleads_firvisit_diff', 'd_leads_dtbt_ppt','c_register_time', 
+             'c_last_reach_platform_MG服务号','c_last_reach_platform_MGAPP','c_last_reach_platform_MG官网',
+             'd_leads_dtbt_level_2','d_visit_count_d30']
+ city_level: 'Middle_Result_Data/city_level.txt'
+ city_liftmatrix_result: 'Middle_Result_Data/city_liftmatrix_result.txt' 
+
+
+
+# Part 6 - Columns used in model predicting part
+# - model_autohome columns used 
+model_auto_col:
+ model_auto_dummy_col : ['h_level', 'h_level_cat', 'h_volume', 'c_sex', 'c_city_level', 'h_produce_way', 'c_age',    
+                 'd_fir_sec_leads_diff','d_avg_leads_date', 'd_avg_visit_date', 'd_avg_fircard_firvisit_diff', 
+                 'd_fircard_firvisit_diff', 'd_last_dfail_dealf_diff', 'd_dealf_lastvisit_diff', 
+                 'd_firlead_dealf_diff', 'd_lastlead_dealf_diff', 'd_dealf_firvisit_diff', 'd_lasttrail_dealf_diff', 
+                 'd_leads_dtbt_coincide','d_leads_dtbt_ppt', 'd_deal_fail_ppt', 'h_focusing_avg_diff', 
+                 'h_focusing_max_diff', 'd_leads_dtbt_count', 'd_leads_dtbt_level_1', 
+                 'd_leads_count', 'd_trail_book_tll', 'h_model_nums', 'd_visit_ttl', 'd_activity_ttl', 
+                 'h_ttl_inquiry_time','d_card_ttl',                       
+                 'd_fir_leads_time_month','d_fir_card_time_month','d_fir_visit_time_month', 
+                 'd_fir_trail_month','d_last_reservation_time_month','d_fir_dealfail_d_month',
+                 'd_last_dealfail_d_month', 'd_fir_visit_time_weekday','d_last_dealfail_d_weekday',
+                 'd_followup_d7','d_followup_d15','d_followup_d30','d_followup_d60', 'd_followup_d90']
+ model_auto_training_cols : 'Middle_Result_Data/model_autohome_training_cols.txt'
+
+# - model others columns used                      
+model_others_col:
+ remain_col: 'Middle_Result_Data/model_others_remained_columns.txt'
+ undum_col: ['d_leads_dtbt_ppt', 'c_register_time', 'c_last_reach_platform_MG服务号','c_last_reach_platform_MG官网','d_firfollow_dealf_diff',
+         'd_cust_type','d_trail_count_d30','d_visit_count_d15','d_avg_fir_sec_visit_diff','d_visit_count_d30','d_leads_dtbt_level_2',
+         'd_avg_firleads_firvisit_diff','d_firleads_firvisit_diff','d_fir_sec_visit_diff','c_last_reach_platform_MGAPP']
+ selected_col: 'Middle_Result_Data/model_others_final_columns.txt'
+ 

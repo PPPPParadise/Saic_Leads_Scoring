@@ -1,0 +1,108 @@
+training_columns
+d_avg_visit_dtbt_count
+d_leads_car_model_count
+d_leads_car_model_type
+h_have_car
+h_compete_car_num_d90
+h_func_prefer1
+h_func_prefer5
+h_func_prefer6
+h_car_type_prefer1
+h_car_type_prefer3
+h_config_prefer2
+h_config_prefer3
+h_config_prefer6
+h_config_prefer7
+h_config_prefer9
+h_config_prefer11
+h_config_prefer13
+h_config_prefer14
+h_config_prefer16
+h_config_prefer18
+c_province
+c_MGHS
+c_MGZS
+c_MG6
+d_fir_trail_weekday
+d_last_reservation_time_weekday
+"d_fir_sec_leads_diff_(-1e-06, 0.0]"
+"d_fir_sec_leads_diff_(0.0, 1.0]"
+"d_leads_count_(-1e-06, 0.0]"
+"d_leads_count_(0.0, 1.0]"
+"d_leads_count_(1.0, 2.0]"
+"d_leads_count_(2.0, 3.0]"
+"d_avg_leads_date_(-1e-06, 0.0]"
+"d_avg_leads_date_(0.0, 2.2]"
+"d_leads_dtbt_count_(-1e-06, 0.0]"
+"d_leads_dtbt_count_(0.0, 1.0]"
+"d_leads_dtbt_count_(1.0, 2.0]"
+"d_leads_dtbt_count_(2.0, 3.0]"
+"d_leads_dtbt_coincide_(-1e-06, 0.0]"
+"d_leads_dtbt_coincide_(0.0, 0.29]"
+"d_leads_dtbt_coincide_(0.29, 0.5]"
+"d_leads_dtbt_coincide_(0.9, 1.0]"
+"d_leads_dtbt_level_1_(0.0, 1.0]"
+"d_leads_dtbt_level_1_(1.0, 2.0]"
+"d_leads_dtbt_level_1_(2.0, 3.0]"
+"d_card_ttl_(-1e-06, 0.0]"
+"d_card_ttl_(0.0, 1.0]"
+"d_card_ttl_(1.0, 2.0]"
+"d_card_ttl_(2.0, 3.0]"
+"d_visit_ttl_(-1e-06, 0.0]"
+"d_visit_ttl_(1.0, 2.0]"
+"d_avg_visit_date_(0.0, 2.0]"
+"d_trail_book_tll_(1.0, 4.0]"
+"d_trail_book_tll_(4.0, 10.0]"
+"d_avg_fircard_firvisit_diff_(0.0, 13.0]"
+"d_activity_ttl_(-1e-06, 0.0]"
+"d_activity_ttl_(1.0, 2.0]"
+"d_followup_d7_(-1e-06, 1.0]"
+"d_followup_d7_(1.0, 2.0]"
+"d_followup_d15_(-1e-06, 1.0]"
+"d_followup_d15_(1.0, 3.0]"
+"d_followup_d15_(3.0, 5.0]"
+"d_followup_d30_(1.0, 5.0]"
+"d_followup_d30_(5.0, 7.0]"
+"d_followup_d30_(7.0, 10.0]"
+"d_followup_d60_(1.0, 7.0]"
+"d_followup_d60_(7.0, 10.0]"
+"d_followup_d60_(10.0, 20.0]"
+"d_followup_d90_(1.0, 7.0]"
+"d_followup_d90_(7.0, 10.0]"
+"d_followup_d90_(10.0, 20.0]"
+"d_firlead_dealf_diff_(10.0, 15.0]"
+"d_firlead_dealf_diff_(15.0, 30.0]"
+"d_lastlead_dealf_diff_(10.0, 15.0]"
+"d_lastlead_dealf_diff_(15.0, 30.0]"
+"d_last_dfail_dealf_diff_(-12.0, -1e-06]"
+"d_last_dfail_dealf_diff_(0.0, 5.0]"
+"d_lasttrail_dealf_diff_(-1.0, -1e-06]"
+"d_leads_dtbt_ppt_(-1e-06, 0.0]"
+"d_leads_dtbt_ppt_(0.0, 0.1]"
+"d_leads_dtbt_ppt_(0.2, 0.25]"
+"d_leads_dtbt_ppt_(0.25, 0.3]"
+"d_fircard_firvisit_diff_(0.0, 13.0]"
+"h_model_nums_(-1e-06, 0.0]"
+"h_model_nums_(1.0, 2.0]"
+"h_model_nums_(2.0, 6.0]"
+"h_model_nums_(6.0, 16.0]"
+"h_focusing_avg_diff_(-100.000001, -100.0]"
+"h_focusing_avg_diff_(80.0, 81.0]"
+"h_focusing_avg_diff_(81.0, 100.0]"
+"h_focusing_avg_diff_(100.0, 104.0]"
+"h_focusing_max_diff_(-100.000001, -100.0]"
+"h_focusing_max_diff_(20.0, 30.0]"
+"h_focusing_max_diff_(30.0, 40.0]"
+"h_focusing_max_diff_(40.0, 100.0]"
+"h_ttl_inquiry_time_(0.0, 1.0]"
+"h_ttl_inquiry_time_(5.0, 41.0]"
+c_sex_性别为男性
+c_city_level_三线城市
+c_city_level_二线城市
+c_city_level_四线城市
+c_city_level_新一线城市
+"d_fir_leads_time_month_[1, 3, 6, 7, 8]"
+"d_fir_card_time_month_[1, 3, 6, 7, 8]"
+"d_fir_dealfail_d_month_[4, 7, 8]"
+"d_last_dealfail_d_weekday_[1, 2, 3, 4, 5]"
+"d_last_dealfail_d_month_[3, 6, 7, 8, 9]"
