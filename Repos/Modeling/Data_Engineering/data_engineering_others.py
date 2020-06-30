@@ -84,7 +84,8 @@ class DataEngineeringOthers:
         self.data['c_province'] = [0 if i is np.nan else 3 if isinstance(i, int) == False else i for i in self.data['c_province']]
 
         # deal with city
-        self.data['c_city'] = self.data[['c_city']].merge(pd.read_csv(city_lift), left_on = 'c_city', right_on = 'city', how = 'left')['lift_type']
+        city = self.data[['c_city']].merge(pd.read_csv(city_lift), left_on = 'c_city', right_on = 'city', how = 'left')['lift_type']
+        self.data['c_city'] = [i for i in city]		
         
         # binary column
         binary_features = [i.encode('utf-8') for i in binary_features]

@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS marketing_modeling.app_big_wide_info (
 	,d_last_dealfail_d         timestamp          comment     ' 最后战败时间'
 	,d_is_deposit_order        int                comment     '-是否下定'
 	,d_deal_flag               int                comment     '- 是否成交 1-成交，0-战败，null-跟进'
+	,d_leads_pool_status       string                comment     '状态：001-未下发；002-培育；003-跟进'
 	,d_dealf_succ_firvisit_diff        double     comment     '成交时间与成交经销商处首次到店时间日期差值'
 	,d_dealf_succ_lastvisit_diff       double     comment     '成交时间与成交经销商处最后一次到店时间日期差值'
 	,d_avg_fir_sec_visit_diff  double             comment     '平均首次到店时间与二次到店时间日期差值'

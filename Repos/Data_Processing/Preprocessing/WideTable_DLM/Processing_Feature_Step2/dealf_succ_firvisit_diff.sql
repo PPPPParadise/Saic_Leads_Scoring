@@ -2,7 +2,7 @@ set mapreduce.map.memory.mb=4096;
 set mapreduce.reduce.memory.mb=8192;
 set hive.mapjoin.smalltable.filesize=55000000;
 set hive.auto.convert.join=false;  -- #取消小表加载至内存中
-set mapreduce.job.queuename=${queuename};
+set tez.queue.name=${queuename};
 
 DROP TABLE IF EXISTS marketing_modeling.tmp_dlm_dealf_succ_firvisit_diff;
 CREATE TABLE marketing_modeling.tmp_dlm_dealf_succ_firvisit_diff as  

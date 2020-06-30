@@ -19,8 +19,8 @@ CREATE TABLE if not exists `marketing_modeling.edw_mkt_userprofile`(
     ,change_and_buy_ppt          string COMMENT  "是否换购概率"
     ,focus_models                string COMMENT  "关注车系"
     ,budget                      string COMMENT  "预算"
-    ,model_nums                  string COMMENT  "车型数量"
-    ,media_source                string COMMENT  "媒体投放渠道"
+--    ,model_nums                  string COMMENT  "车型数量"
+--    ,media_source                string COMMENT  "媒体投放渠道"
     ,media_content               string COMMENT  "媒体投放内容"
     ,prob		                 string COMMENT  "意向度"
     ,outbound                    int    COMMENT  "是否外呼"
@@ -37,4 +37,4 @@ STORED AS INPUTFORMAT
 	  'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat' 
 OUTPUTFORMAT 
 	  'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat'
-
+;

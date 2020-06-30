@@ -7,9 +7,9 @@ fi
 DLM_LOG=logs/dlm
 starttime=`date +'%Y-%m-%d %H:%M:%S'`
 pt=20200601
-beginTime=`awk -F '=' '/\[DLM\]/{a=1}a==1&&$1~/beginTime/{print $2;exit}' config.ini`
+days=`awk -F '=' '/\[DLM\]/{a=1}a==1&&$1~/days/{print $2;exit}' config.ini`
 queuename=bg=`awk -F '=' '/\[HIVE\]/{a=1}a==1&&$1~/job.queuename/{print $2;exit}' config.ini`
-
+beginTime=`date -d "$days days ago" +%Y-%m-%d`
 echo "=================begin_time: "$starttime" ==================================="
 echo "=====================leads_feature_cleansing.sql start_1......" 
 hive -hivevar pt=$pt -hivevar beginTime=$beginTime -hivevar queuename=$queuename -f $DLM/leads/leads_feature_cleansing.sql >& $DLM_LOG/leads_feature_cleansing.log

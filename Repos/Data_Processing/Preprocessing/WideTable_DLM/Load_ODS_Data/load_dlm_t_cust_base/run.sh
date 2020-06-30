@@ -1,8 +1,9 @@
 #!/bin/bash
 yesterday=`date -d -1days '+%Y%m%d'`
 pt=$3
-beginTime=`awk -F '=' '/\[DLM\]/{a=1}a==1&&$1~/beginTime/{print $2;exit}' ../../../config.ini`
+days=`awk -F '=' '/\[DLM\]/{a=1}a==1&&$1~/days/{print $2;exit}' ../../../config.ini`
 queuename=`awk -F '=' '/\[HIVE\]/{a=1}a==1&&$1~/job.queuename/{print $2;exit}' ../../../config.ini`
+beginTime=`date -d "$days days ago" +%Y-%m-%d`
 if [ `expr length $pt` == 8 ] && date -d $pt +%Y%m%d > /dev/null 2>&1;then
     echo $pt; 
 else    

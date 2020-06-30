@@ -1,4 +1,4 @@
-
+set tez.queue.name=${queuename};
 set mapreduce.map.memory.mb=4096;
 set mapreduce.reduce.memory.mb=8192;
 
@@ -19,5 +19,5 @@ where
 GROUP BY device_id
 ) a
 left join 
-	cdp.edw_cdp_id_mapping_overview b
+	(select * from cdp.edw_cdp_id_mapping_overview where pt='${pt}') b
 on a.device_id = b.device_id and b.phone is not null

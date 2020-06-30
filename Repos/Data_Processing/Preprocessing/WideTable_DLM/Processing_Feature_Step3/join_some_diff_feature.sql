@@ -1,4 +1,4 @@
-set mapreduce.job.queuename=${queuename};
+set tez.queue.name=${queuename};
 -- 成交时间差计算
 DROP TABLE IF EXISTS marketing_modeling.tmp_dlm_join_some_diff;
 CREATE TABLE marketing_modeling.tmp_dlm_join_some_diff as 

@@ -1,3 +1,4 @@
+set tez.queue.name=${queuename};
 SET hive.exec.dynamic.partition.mode = nonstrict;
 
 INSERT OVERWRITE TABLE marketing_modeling.app_model_application

@@ -1,4 +1,4 @@
-set mapreduce.job.queuename=${queuename};
+set tez.queue.name=${queuename};
 set mapreduce.map.memory.mb=4096;
 set mapreduce.reduce.memory.mb=8192;
 

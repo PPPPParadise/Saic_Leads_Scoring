@@ -1,6 +1,6 @@
 set mapreduce.map.memory.mb=4096;
 set mapreduce.reduce.memory.mb=8192;
-set mapreduce.job.queuename=${queuename};
+set tez.queue.name=${queuename};
 
 DROP TABLE IF EXISTS marketing_modeling.tmp_dlm_fircard_dealf_diff;
 

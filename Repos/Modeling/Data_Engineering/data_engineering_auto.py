@@ -44,6 +44,7 @@ class DataEngineering:
         # load configs
         with open('config.yaml') as config_file:
             config = yaml.full_load(config_file)
+
         datetime_list = config['model_auto_feature_engineering']['model_auto_datetime_list']
         datetime_list_bi = config['model_auto_feature_engineering']['model_auto_datetime_list_bi']
         datetime_dic_lst = config['model_auto_feature_engineering']['model_auto_datetime_dic_lst']
@@ -52,39 +53,7 @@ class DataEngineering:
         bins_for_multi = config['model_auto_feature_engineering']['model_auto_bins_for_multi']
         cols_to_multi = config['model_auto_feature_engineering']['model_auto_cols_to_multi']
         cols_to_bi = config['model_auto_feature_engineering']['model_auto_cols_to_bi']
-        
-        def get_binary_cat(df,col):
-            """
-            Create binary column with 1 indicting not null and 0 indicating null given:
-            df(dataframe): input dataframe
-            col: column used to transfer
 
-            """
-            try:
-                index_list = df[df[col].isnull() == False].index
-                df.loc[index_list,col] = 1
-                df.loc[~df.index.isin(index_list),col] = 0
-                return df[col]
-            except:
-                return df[col]
-
-        def multi_class(df,col,bins):
-            '''
-            Create multiple-class column by cutting column from bins given:
-            df(dataframe): input dataframe
-            col: column used to transfer
-            bins: bins used to cut column
-            '''
-            try:
-                table = df[(df[col].isnull() == False)]
-                bins.append(table[col].max())
-                bins.append(table[col].min())
-                bins = list(set(bins))
-                bins.sort()
-                df[col]=pd.cut(table[col],bins = bins)
-                return df[col]
-            except:
-                return df[col]
             
         def datatime_to_weekday_and_month(data,col,col_wk_lst,col_mon_lst):
             """
@@ -120,11 +89,11 @@ class DataEngineering:
                     col = col_lst[i]
                     if col in df.columns:
                         bins = bins_lst[i]
-                        df[col] = multi_class(df,col,bins)
+                        df[col] = pd.cut(df[col],bins = bins)
             else:
                 for col in col_lst:
                     if col in df.columns:
-                        df[col] = get_binary_cat(df,col)
+                        df[col] = df[col].where(df[col].isnull(),1).fillna(0).astype(int)
             return df
 
         

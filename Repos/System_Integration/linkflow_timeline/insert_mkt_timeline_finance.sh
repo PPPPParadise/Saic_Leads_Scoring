@@ -13,27 +13,27 @@
 #*********************************************************************/
 pt=$3
 channel="udc_19ip3JOHr"
-trail="UDE_1OAVKDV0O"
 finance="UDE_1W9BB8QX1"
-browsing="UDE_1OZXSVUEG"
+channelid="7"
+
 sql="
--- 点击金融/贷款服务
+set tez.queue.name=${queuename};
 INSERT INTO linkflow.event partition (pt='${pt}')
-SELECT  s2.id
+SELECT null as id
        ,1 as version
        ,null AS anonymous_id
-       ,'$channel' as channel_id
+       ,'${channel}' as channel_id
        ,'MKT渠道' as channel_name
        ,s2.contact_identity_id
        ,null as context
        ,FROM_UNIXTIME(UNIX_TIMESTAMP() ,'yyyy-MM-dd HH:mm:ss') as date_created
        ,'communication_stretegy' as event
        ,FROM_UNIXTIME(UNIX_TIMESTAMP() ,'yyyy-MM-dd HH:mm:ss') as event_date
-       ,'$finance' as event_id
+       ,'$browsing' as event_id
        ,FROM_UNIXTIME(UNIX_TIMESTAMP() ,'yyyy-MM-dd HH:mm:ss') as last_updated
        ,null as property
 	   ,1 as tenant_id
-       ,s2.finance_click as attr1
+        ,s2.finance_click as attr1
 	   ,null as attr2
        ,null as attr3
 	   ,null as attr4
@@ -82,17 +82,15 @@ SELECT  s2.id
       
 FROM 
 (
-    select 
-        (hash(a.mobile) & 376597832) as id,
-        get_json_object(a.finance_click,'$info') as finance_click,
-        get_json_object(a.finance_click,'$dt') as dt,
-		c.id as contact_identity_id
+  select 
+        get_json_object(a.finance_click,'$.info') as finance_click,
+        get_json_object(a.finance_click,'$.dt') as dt,
+		10000000000+(hash(concat(t1.mobile,'$channelid'))&2147483647) as contact_identity_id
     from
     marketing_modeling.app_timeline_behavior a
-	inner join
-		linkflow.contact_identity c
-		on a.mobile = c.external_id
+
     where a.finance_click is not null and a.pt = '${pt}'
-) s2;
+)
+s2
 "
 hive -hivevar pt=$pt -e "$sql"

@@ -1,22 +1,21 @@
 #!/bin/bash
-timeline=.
+queuename=`awk -F '=' '/\[HIVE\]/{a=1}a==1&&$1~/job.queuename/{print $2;exit}' ../config.ini`
+pt=$3
+if [ `expr length $pt` == 8 ] && date -d $pt +%Y%m%d > /dev/null 2>&1; then
+    echo $pt; 
+else    
+    echo "pt=$pt 输入的日期格式不正确，应为yyyymmdd";
+    exit 1; 
+fi   
 #如果文件夹不存在，创建文件夹
-if [ ! -d "logs/timeline" ]; then
-  mkdir -p logs/timeline
-fi
-timeline_LOG=logs/timeline
-starttime=`date +'%Y-%m-%d %H:%M:%S'`
-
-
-echo "=================begin_time: "$starttime" ==================================="
-echo "---------------------dmp_user_info.sql start_1......" 
-hive -f $timeline/dmp_user_info.sql >& $timeline_LOG/dmp_user_info.log
+echo "=================begin_time:==================================="
+echo "=================dmp_user_info.sql start_1......" 
+hive -hivevar queuename=$queuename -f dmp_user_info.sql
 #if [ $? -ne 0 ];then    echo exit; else    echo "leads_feature_cleansing.sql end ......"; fi
-echo "---------------------gio_finance_count.sql start._2....."
-hive -f $timeline/gio_finance_count.sql >& $timeline_LOG/finance_count.log &
-echo "---------------------total_browse_time.sql start_1......" 
-hive -f $timeline/total_browse_time.sql >& $timeline_LOG/total_browse_time.log
+echo "=================gio_finance_count.sql start._2....."
+hive -hivevar queuename=$queuename -f gio_finance_count.sql
+echo "=================total_browse_time.sql start_1......" 
+hive -hivevar pt=$pt -hivevar queuename=$queuename -f total_browse_time.sql
 #if [ $? -ne 0 ];then    echo exit; else    echo "step1/cust_feature_cleansing.sql end ......"; fi
-echo "---------------------timeline_behavior.sql start._2...return_code:"$?
-hive -f $timeline/timeline_behavior.sql >& $timeline_LOG/timeline_behavior.log &
-echo "---------------------lsh custbase end ......return_code:"$?
+echo "=================timeline_behavior.sql start._2...return_code:"$?
+hive -hivevar queuename=$queuename -f timeline_behavior.sql

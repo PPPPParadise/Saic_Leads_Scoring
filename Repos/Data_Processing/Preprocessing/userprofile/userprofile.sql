@@ -1,6 +1,6 @@
 SET mapreduce.map.memory.mb=4096;
 SET mapreduce.reduce.memory.mb = 8192;
-
+set tez.queue.name=${queuename};
 
 INSERT OVERWRITE TABLE marketing_modeling.edw_mkt_userprofile partition(pt='${pt}')
 SELECT  a.mobile                                                                 AS mobile 
@@ -23,18 +23,21 @@ SELECT  a.mobile                                                                
        ,a.h_models                                                               AS focus_models 
        ,a.h_budget                                                               AS budget 
        ,a.h_model_nums                                                           AS model_nums 
-       ,b.media                                                                  AS media_source 
-       ,b.creative                                                               AS media_content 
+--        ,b.media                                                                  AS media_source 
+--       ,b.creative                                                               AS media_content 
 	   ,c.prob_tag																 AS prob
 	   ,c.outbound																 AS outbound
 	   ,a.d_trail_attend_ttl													 AS trail_attend_ttl
 	   ,a.d_visit_ttl															 AS visit_ttl				
 FROM 
-	(select *,
-		row_number() over (partition by mobile order by d_fir_leads_time desc) as num 
-	from marketing_modeling.app_big_wide_info) a
-LEFT JOIN marketing_modeling.mm_dmp_user_info b
-ON a.mobile = b.phone and b.rn = 1
-LEFT JOIN marketing_modeling.app_model_application c
+	(
+		select *,
+			row_number() over (partition by mobile order by d_fir_leads_time desc) as num 
+		from marketing_modeling.app_big_wide_info where pt='${pt}'
+	   ) a
+-- LEFT JOIN marketing_modeling.mm_dmp_user_info b
+-- ON a.mobile = b.phone and b.rn = 1
+LEFT JOIN (select * from marketing_modeling.app_model_application where pt='${pt}') c
 ON a.mobile = c.mobile
-where a.pt='{$pt}'
+where a.num = 1
+;

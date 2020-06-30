@@ -1,12 +1,8 @@
 set mapreduce.map.memory.mb=4096;
 set mapreduce.reduce.memory.mb=8192;
-set mapreduce.job.queuename=${queuename};
+set tez.queue.name=${queuename};
 
-DROP TABLE IF EXISTS marketing_modeling.app_model_input_data;
-CREATE TABLE IF NOT EXISTS marketing_modeling.app_model_input_data 
-ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
-STORED AS TEXTFILE
-AS 
+insert overwrite table marketing_modeling.app_model_input_data partition (pt='${pt}') 
 SELECT
   mobile,
   d_fir_leads_time,
@@ -85,4 +81,5 @@ SELECT
   c_last_reach_platform
 FROM marketing_modeling.app_big_wide_info
 WHERE mobile regexp "^[1][35678][0-9]{9}$"
-  and pt='${pt}'
+AND d_leads_pool_status IS NOT NULL
+AND pt='${pt}';

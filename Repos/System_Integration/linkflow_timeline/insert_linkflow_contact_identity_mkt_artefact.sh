@@ -45,10 +45,10 @@ from (
 		s1.external_id 
 	from (
 		select 
-			concat((hash(t2.id) & 2147483647) , substr(t1.mobile,7),'$channel') id,
+			10000000000+(hash(concat(t1.mobile,'7'))&2147483647) id,
 			1 version,
-			'$channel' channel_id,
-			concat((hash(t2.id) & 2147483647) , substr(t1.mobile,7)) contact_id,
+			$channel channel_id,
+			t1.mobile contact_id,
 			FROM_UNIXTIME(UNIX_TIMESTAMP() ,'yyyy-MM-dd HH:mm:ss') date_created,
 			0 is_active,
 			FROM_UNIXTIME(UNIX_TIMESTAMP() ,'yyyy-MM-dd HH:mm:ss') last_updated,
@@ -57,9 +57,6 @@ from (
 			t1.mobile as external_id 
 			from 
 			(select * from marketing_modeling.edw_mkt_userprofile where pt='${pt}') t1 
-			inner join 
-			(select * from cdp.customer_info_withID_join where pt='${pt}' and id is not null) t2
-			on t1.mobile=t2.id 
 			) s1
 	group by 
 		s1.id,

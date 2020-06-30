@@ -75,7 +75,8 @@ class DataPredictingOthers():
         null_col = [i for i in selected_col if i not in self.X.columns]
         
         if len(null_col) == len(list(self.X.columns)):
-            logger.warning('All input columns of model others are missing!')
+            logger.critical('All input columns of model others are missing!')
+            sys.exit(1)
         elif len(null_col) > 0:
             logger.warning('Features %s were missing!', str(null_col))
         else:
@@ -89,17 +90,12 @@ class DataPredictingOthers():
 
             
     def predicting(self, pca_filepath, model_filepath):
-        try:
-            self.pca = joblib.load(pca_filepath)
-            self.rf_best_model = joblib.load(model_filepath)
-
-            self.X = self.pca.fit_transform(self.X)
-            self.Y = self.rf_best_model.predict_proba(self.X)
-            result = pd.DataFrame([i[1] for i in self.Y], index = self.mobiles, columns = ['pred_score'])
-            result = result.reset_index()
-            result['result_date'] = pd.datetime.now()
-            result['pt'] = datetime.date.today().strftime("%Y%m%d")
-            logger.info('Non-Autohome predicted end!')
-            return result
-        except:
-            logger.critical('Prediction of model others was not fisnished!')                          
+        self.pca = joblib.load(pca_filepath)
+        self.rf_best_model = joblib.load(model_filepath)
+        self.X = self.pca.fit_transform(self.X)
+        self.Y = self.rf_best_model.predict_proba(self.X)
+        result = pd.DataFrame([i[1] for i in self.Y], index = self.mobiles, columns = ['pred_score'])
+        result = result.reset_index()
+        result['result_date'] = pd.datetime.now()
+        logger.info('Non-Autohome predicted end!')
+        return result         

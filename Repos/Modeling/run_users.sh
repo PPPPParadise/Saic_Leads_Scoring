@@ -1,5 +1,6 @@
 #!/bin/bash
 pt=$3
+queuename=malg
 thres_upper=0.75
 thres_mid=0.5
 targeted_vol=10000
@@ -9,4 +10,6 @@ else
     echo "pt=$pt 输入的日期格式不正确，应为yyyymmdd";
     exit 1; 
 fi
-hive -hivevar pt=$pt -hivevar thres_upper=$thres_upper -hivevar thres_mid=$thres_mid -hivevar targeted_vol=$targeted_vol -f SQL/mm_model_application_ingestion.sql
+hive -hivevar pt=$pt -hivevar queuename=$queuename -f SQL/insert_app_model_result.sql
+echo "====================================="
+hive -hivevar queuename=$queuename -hivevar pt=$pt -hivevar thres_upper=$thres_upper -hivevar thres_mid=$thres_mid -hivevar targeted_vol=$targeted_vol -f SQL/mm_model_application_ingestion.sql

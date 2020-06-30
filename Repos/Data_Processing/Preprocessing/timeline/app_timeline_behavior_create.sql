@@ -17,4 +17,3 @@ STORED AS INPUTFORMAT
 	  'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat' 
 OUTPUTFORMAT 
 	  'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat'
-

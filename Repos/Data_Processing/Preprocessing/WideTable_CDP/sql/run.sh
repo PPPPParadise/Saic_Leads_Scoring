@@ -10,6 +10,6 @@ fi
 echo "====================-cdp_middle_tb.sql start_1......" 
 hive -hivevar pt=$pt -hivevar queuename=$queuename -f cdp_middle_tb.sql
 echo "====================-cdp_mapping_tb.sql start._2....."
-hive -hivevar queuename=$queuename -f cdp_mapping_tb.sql
+hive -hivevar pt=$pt -hivevar queuename=$queuename -f cdp_mapping_tb.sql
 echo "====================-cdp_final_tb.sql start._3....."
 hive -hivevar queuename=$queuename -f cdp_final_tb.sql

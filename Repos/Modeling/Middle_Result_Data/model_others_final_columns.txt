@@ -55,5 +55,5 @@ d_visit_dtbt_count_(-499.0, 22.1]
 d_avg_visit_dtbt_count_(-499.0, 190.1]
 d_visit_count_d90_(-499.0, 74.1]
 c_leads_source_nums_(0.5, 6.1]
-d_fir_card_time_1
-d_fir_card_time_2
+d_fir_card_time_1.0
+d_fir_card_time_2.0

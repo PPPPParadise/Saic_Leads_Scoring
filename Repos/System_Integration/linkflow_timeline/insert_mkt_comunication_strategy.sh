@@ -14,6 +14,7 @@
 pt=$3
 channel="udc_19ip3JOHr"
 channelid="7"
+eventid="UDE_1T3MJ8TJ8"
 sql="
 INSERT INTO linkflow.event partition (pt='${pt}')
 SELECT  null as id
@@ -26,7 +27,7 @@ SELECT  null as id
        ,FROM_UNIXTIME(UNIX_TIMESTAMP() ,'yyyy-MM-dd HH:mm:ss') as date_created
        ,'communication_stretegy' as event
        ,FROM_UNIXTIME(UNIX_TIMESTAMP() ,'yyyy-MM-dd HH:mm:ss') as event_date
-       ,'UDE_1T3MJ8TJ8' as event_id
+       ,'$eventid' as event_id
        ,FROM_UNIXTIME(UNIX_TIMESTAMP() ,'yyyy-MM-dd HH:mm:ss') as last_updated
        ,null as property
 	   ,1 as tenant_id
@@ -119,18 +120,14 @@ FROM
             case when b.city_level is null or b.city_level in ('三线城市','四线城市','五线城市') then 3
             WHEN b.city_level = '二线城市' THEN 2
             else 1 end as city_level,
-			concat((hash(t2.id) & 2147483647) , substr(a.mobile,7),'$channelid')  as contact_identity_id,
+			10000000000+(hash(concat(a.mobile,'$channelid'))&2147483647)  as contact_identity_id,
 			a.config_prefer
 		from
 		marketing_modeling.edw_mkt_userprofile a
-		inner join
-		(select * from cdp.customer_info_withID_join where pt='${pt}' and id is not null) t2
-	on t1.mobile=t2.id 
 		left join
 		marketing_modeling.edw_city_level b
 		on 
 		a.city = b.city_name
-		
 		where a.pt = '${pt}'
     ) s1
 ) s2;

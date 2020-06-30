@@ -1,5 +1,6 @@
 set mapreduce.map.memory.mb=4096;
 set mapreduce.reduce.memory.mb=8192;
+set tez.queue.name=${queuename};
 drop table if exists marketing_modeling.mm_dmp_user_info;
 create table marketing_modeling.mm_dmp_user_info as 
 select b.*,

@@ -1,7 +1,6 @@
-set mapreduce.map.memory.mb=4096;
-set mapreduce.reduce.memory.mb=8192;
-set mapreduce.job.queuename=${queuename};
-
+-- set mapreduce.map.memory.mb=4096;
+-- set mapreduce.reduce.memory.mb=8192;
+-- set tez.queue.name=${queuename};
 insert overwrite table marketing_modeling.app_big_wide_info partition (pt='${pt}')
 SELECT 
 	a1.mobile,
@@ -48,6 +47,7 @@ SELECT
 	a1.last_dealfail_d,             -- 最后战败时间
 	a1.is_deposit_order,             --是否下定
 	a1.deal_flag,                     -- 是否成交 1-成交，0-战败，null-跟进
+	a1.leads_pool_status,
 	a1.dealf_succ_firvisit_diff,    --成交时间与成交经销商处首次到店时间日期差值
 	a1.dealf_succ_lastvisit_diff,   --成交时间与成交经销商处最后一次到店时间日期差值
 	a1.avg_fir_sec_visit_diff,      --平均首次到店时间与二次到店时间日期差值

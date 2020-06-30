@@ -1,7 +1,7 @@
 ---- 创建汽车之家的小宽表，清洗重复数据
 set mapreduce.map.memory.mb=4096;
 set mapreduce.reduce.memory.mb=8192;
-set mapreduce.job.queuename=${queuename};
+set tez.queue.name=${queuename};
 
 DROP TABLE IF EXISTS marketing_modeling.app_autohome_wide_info;
 CREATE TABLE marketing_modeling.app_autohome_wide_info as

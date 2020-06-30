@@ -1,6 +1,6 @@
 set mapreduce.map.memory.mb=4096;
 set mapreduce.reduce.memory.mb=8192;
-set mapreduce.job.queuename=${queuename};
+set tez.queue.name=${queuename};
 --标记状态，成交/战败/跟进中
 DROP TABLE IF EXISTS marketing_modeling.tmp_dlm_deal_flag_processing;
 CREATE TABLE marketing_modeling.tmp_dlm_deal_flag_processing as  

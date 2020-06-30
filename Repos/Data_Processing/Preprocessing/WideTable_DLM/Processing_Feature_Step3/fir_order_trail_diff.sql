@@ -1,6 +1,6 @@
 set mapreduce.map.memory.mb=4096;
 set mapreduce.reduce.memory.mb=8192;
-set mapreduce.job.queuename=${queuename};
+set tez.queue.name=${queuename};
 
 --首次下定时间与首次到店时间的日期差值
 DROP TABLE IF EXISTS marketing_modeling.tmp_dlm_fir_order_visit_diff;

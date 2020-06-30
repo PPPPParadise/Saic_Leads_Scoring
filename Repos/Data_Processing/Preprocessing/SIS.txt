@@ -1,3 +1,15 @@
+select count(1) from marketing_modeling.app_dlm_wide_info;
+select count(1) from marketing_modeling.app_cdp_wide_info;
+select count(1) from marketing_modeling.app_sis_wide_info;
+select count(1) from marketing_modeling.app_autohome_wide_info;
+
+
+
+
+
+
+
+
 git clone -b 分支名 完整http的URL名
 select task_id,cust_id,status_task,status_handle from dtwarehouse.ods_smcsc_tsk_task_item
 select id,mobile from dtwarehouse.ods_smcsc_tsk_customer    
@@ -109,3 +121,9 @@ hadoop fs -cat hdfs://tcluster/warehouse/tablespace/managed/hive/marketing_model
  sed -i 's/\\N/NULL/g' app_model_input_data.txt 
 
 prod/Repos/Data_Processing/
+
+
+ALTER TABLE marketing_modeling.app_big_wide_info ADD
+  COLUMNS (d_leads_pool_status string COMMENT '状态：001-未下发；002-培育；003-跟进')
+  ;
+  

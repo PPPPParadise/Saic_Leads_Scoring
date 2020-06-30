@@ -14,15 +14,14 @@
 pt=$3
 channel="udc_19ip3JOHr"
 trail="UDE_1OAVKDV0O"
-finance="UDE_1W9BB8QX1"
-browsing="UDE_1OZXSVUEG"
+channelid="7"
+
 sql="
--- 最后试驾
 INSERT INTO linkflow.event partition (pt='${pt}')
-SELECT  s2.id
+SELECT null as id
        ,1 as version
        ,null AS anonymous_id
-       ,'$channel' as channel_id
+       ,'${channel}' as channel_id
        ,'MKT渠道' as channel_name
        ,s2.contact_identity_id
        ,null as context
@@ -79,18 +78,17 @@ SELECT  s2.id
 	   ,null as longitude
 	   ,null as trigger_flow
 	   ,null as channel_app_id
+
 FROM 
 (
-        select 
-        (hash(a.mobile) & 376597832) as id,
-        get_json_object(a.last_trail_time,'$info') as last_trail_time,
-		c.id as contact_identity_id
+     select    
+        get_json_object(a.last_trail_time,'$.info') as last_trail_time,
+		10000000000+(hash(concat(a.mobile,'$channelid'))&2147483647)  as contact_identity_id
     from
-    marketing_modeling.app_timeline_behavior a
-	inner join
-		linkflow.contact_identity c
-		on a.mobile = c.external_id 
+		marketing_modeling.app_timeline_behavior a
+
     where a.last_trail_time is not null and a.pt = '${pt}'
-) s2;
+)
+s2
 "
 hive -hivevar pt=$pt -e "$sql"

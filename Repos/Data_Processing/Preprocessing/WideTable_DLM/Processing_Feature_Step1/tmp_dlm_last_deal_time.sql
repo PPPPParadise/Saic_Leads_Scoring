@@ -1,5 +1,5 @@
 ---- 计算用户成交或战败的最后时间
-set mapreduce.job.queuename=${queuename};
+set tez.queue.name=${queuename};
 
 DROP TABLE IF EXISTS marketing_modeling.tmp_dlm_last_deal_time;
 CREATE TABLE marketing_modeling.tmp_dlm_last_deal_time as 

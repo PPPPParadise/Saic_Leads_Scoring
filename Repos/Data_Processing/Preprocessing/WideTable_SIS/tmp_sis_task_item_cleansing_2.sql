@@ -1,5 +1,6 @@
 set mapreduce.map.memory.mb=4096;
 set mapreduce.reduce.memory.mb=8192;
+set tez.queue.name=${queuename};
 -- set hive.mapjoin.smalltable.filesize=55000000;
 -- set hive.auto.convert.join=false;  -- #取消小表加载至内存中
 --保留一位小数，根据ob_result_code判断通话结果

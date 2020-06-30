@@ -1,4 +1,4 @@
-set mapreduce.job.queuename=${queuename};
+set tez.queue.name=${queuename};
 DROP TABLE IF EXISTS marketing_modeling.tmp_dlm_followup_d7;
 
 CREATE TABLE marketing_modeling.tmp_dlm_followup_d7 as 

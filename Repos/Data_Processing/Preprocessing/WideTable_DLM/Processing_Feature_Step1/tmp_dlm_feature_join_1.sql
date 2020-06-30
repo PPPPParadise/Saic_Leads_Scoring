@@ -1,7 +1,7 @@
 -- 留资/建卡/到店/跟进用户合并
 set mapreduce.map.memory.mb=4096;
 set mapreduce.reduce.memory.mb=8192;
-set mapreduce.job.queuename=${queuename};
+set tez.queue.name=${queuename};
 
 DROP TABLE IF EXISTS marketing_modeling.tmp_dlm_feature_join_1;
 CREATE TABLE marketing_modeling.tmp_dlm_feature_join_1 as 

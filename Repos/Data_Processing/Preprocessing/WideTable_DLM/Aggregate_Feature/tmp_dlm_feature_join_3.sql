@@ -1,6 +1,6 @@
 set mapreduce.map.memory.mb=4096;
 set mapreduce.reduce.memory.mb=8192;
-set mapreduce.job.queuename=${queuename};
+set tez.queue.name=${queuename};
 
 -- join 过去多少天xx次数的特征
 DROP TABLE IF EXISTS marketing_modeling.tmp_dlm_feature_join_3;

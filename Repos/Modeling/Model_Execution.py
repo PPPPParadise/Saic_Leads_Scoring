@@ -13,6 +13,7 @@ import numpy as np
 import datetime
 import yaml
 import logging
+import sys
 
 from Data_Engineering.data_preparation_all import AutohomePreparation, CDPPreparation
 from Data_Engineering.data_engineering_auto import DataEngineering
@@ -24,10 +25,13 @@ from pyspark import SparkContext
 from pyspark.sql import SparkSession,HiveContext,Window
 from pyspark.sql import functions as fn
 from pyspark.sql.types import IntegerType, FloatType, DoubleType, ArrayType, StringType, DecimalType,MapType
-spark_session = SparkSession.builder.enableHiveSupport().appName("test").config("spark.driver.memory","30g").getOrCreate()
-hc = HiveContext(spark_session.sparkContext)
-hc.setConf("hive.exec.dynamic.partition.mode", "nonstrict")
 
+
+# Set pt
+if isinstance(sys.argv[1], str) == True:
+    pt = sys.argv[1]
+else:
+    pt = datetime.date.today().strftime("%Y%m%d")
 
 ###########################################
 #           Set up Logs          #
@@ -120,14 +124,29 @@ DataPredicting.feature_engineering()
 DataPredictingOthers = DataPredictingOthers(others_data)
 DataPredictingOthers.feature_engineering()
 
-# Output and save
+# Model Output
 auto_result = DataPredicting.predicting(a_pca_filepath, a_model_filepath)
 others_result = DataPredictingOthers.predicting(o_pca_filepath, o_model_filepath)
 
-try:
-    result = pd.concat([auto_result, others_result])
-    result = hc.createDataFrame(result)
-    result.write.insertInto("marketing_modeling.app_model_result")
-    logger.info('Result saved!')
-except:
-    logger.critical('Prediction failed, please check !!!!!')
+result = pd.concat([auto_result, others_result])
+#result['pt'] = pt
+logger.info('The size of model result: %s', str(result.shape))
+
+# Result Saving
+spark_session = SparkSession.builder.enableHiveSupport().appName("M_Model").config("spark.driver.memory","30g").getOrCreate()
+hc = HiveContext(spark_session.sparkContext)
+hc.setConf("hive.exec.dynamic.partition.mode", "nonstrict")
+
+
+result = hc.createDataFrame(result)
+result = result.createOrReplaceTempView("tmp_result")
+dropstr = """DROP TABLE IF EXISTS marketing_modeling.tmp_app_model_result"""
+hc.sql(dropstr)
+insertsql= """
+	create table marketing_modeling.tmp_app_model_result as
+	select * from tmp_result
+"""
+hc.sql(insertsql)
+# result.write.insertInto("marketing_modeling.app_model_result",overwrite=True)
+logger.info('Result saved!')
+

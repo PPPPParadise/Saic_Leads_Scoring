@@ -248,9 +248,8 @@ def running(pt):
             get_config_size(configuration_preference) as config_nums,
             leads_create_time
         from dtwarehouse.user_portrait
-        where pt='%s'
         """
-    sql = sql % (pt)
+#    sql = sql % (pt)
     data = hc.sql(sql)
     data.createOrReplaceTempView("aotohome_tmp")
     createsql = """
@@ -264,9 +263,11 @@ def running(pt):
 
 if __name__ == "__main__":
     pt = ''
-    if len(sys.argv) == 2:
+    """
+	if len(sys.argv) == 2:
         pt=sys.argv[1]
     else:
         date_time = datetime.datetime.now() - datetime.timedelta(days=1)
         pt = date_time.strftime("%Y%m%d")
+	"""
     running(pt)

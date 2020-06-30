@@ -1,6 +1,6 @@
 set mapreduce.map.memory.mb=4096;
 set mapreduce.reduce.memory.mb=8192;
-set mapreduce.job.queuename=${queuename};
+set tez.queue.name=${queuename};
 
 -- 成交时间差计算
 DROP TABLE IF EXISTS marketing_modeling.app_dlm_wide_info;
@@ -51,7 +51,8 @@ SELECT
 	a4.fir_activity_dealf_diff,    --首次参加活动时间距成交(战败)日期差值
 	a4.fir_order_leads_diff,	--首次下定时间与首次留资时间的日期差值
 	a4.fir_order_visit_diff,	--首次下定时间与首次到店时间的日期差值
-	a4.fir_order_trail_diff	    --首次下定时间与首次试乘试驾的日期差值
+	a4.fir_order_trail_diff,	    --首次下定时间与首次试乘试驾的日期差值
+	a5.leads_pool_status
 FROM
 	marketing_modeling.tmp_dlm_feature_join_1 a1
 left join 
@@ -60,4 +61,6 @@ left join
 	marketing_modeling.tmp_dlm_feature_join_3 a3 on a1.mobile = a3.mobile
 left join 
 	marketing_modeling.tmp_dlm_feature_join_4 a4 on a1.mobile = a4.mobile
+left join 
+	marketing_modeling.tmp_leads_pool_status a5 on a1.mobile = a5.mobile
 ;

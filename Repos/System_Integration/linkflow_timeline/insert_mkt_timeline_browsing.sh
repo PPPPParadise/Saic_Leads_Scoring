@@ -13,13 +13,11 @@
 #*********************************************************************/
 pt=$3
 channel="udc_19ip3JOHr"
-
 browsing="UDE_1OZXSVUEG"
+channelid="7"
 sql="
-
--- 近七天浏览次数
 INSERT INTO linkflow.event partition (pt='${pt}')
-SELECT  s2.id
+SELECT null as id
        ,1 as version
        ,null AS anonymous_id
        ,'${channel}' as channel_id
@@ -83,15 +81,13 @@ SELECT  s2.id
 FROM 
 (
     select 
-        (hash(a.mobile) & 376597832) as id,
-        get_json_object(a.browse_time_d7,'$info') as browse_time_d7,
-		c.id as contact_identity_id
+        get_json_object(a.browse_time_d7,'$.info') as browse_time_d7,
+		10000000000+(hash(concat(a.mobile,'$channelid'))&2147483647)  as contact_identity_id
     from
 		marketing_modeling.app_timeline_behavior a
-	inner join
-		linkflow.contact_identity c
-		on a.mobile = c.external_id
+
     where a.browse_time_d7 is not null and a.pt = '${pt}'
-) s2;
+)
+s2
 "
 hive -hivevar pt=$pt -e "$sql"

@@ -6,20 +6,20 @@ if [ $? -ne 0 ];then
     echo "tmp_dlm_feature_join_2.sql 处理失败。code=$?";
     exit 1; 
 else
-    echo "=====================join/tmp_dlm_feature_join_3.sql start_3......"
+    echo "=====================tmp_dlm_feature_join_3.sql start_3......"
 fi
 hive -hivevar queuename=$queuename -f tmp_dlm_feature_join_3.sql
 if [ $? -ne 0 ];then 
     echo "tmp_dlm_feature_join_3.sql 处理失败。code=$?";
     exit 1; 
 else
-    echo "=====================join/tmp_dlm_feature_join_4.sql start._4....."
+    echo "=====================tmp_dlm_feature_join_4.sql start._4....."
 fi
 hive -hivevar queuename=$queuename -f tmp_dlm_feature_join_4.sql
 if [ $? -ne 0 ];then 
     echo "tmp_dlm_feature_join_4.sql 处理失败。code=$?";
     exit 1; 
 else
-    echo "=====================join/mm_dlm_wide_info.sql start._5....."
+    echo "=====================tmp_leads_pool_status.sql start._5....."
 fi
 hive -hivevar queuename=$queuename -f app_dlm_wide_info.sql

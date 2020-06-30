@@ -2,14 +2,7 @@
 # coding: utf-8
 
 """
-Predicting purchasing probability of dataset: 
-* Spliting dateset into dependent variables and independent variables
-* Droping columns with high missing rate
-* Onehot-encoding multi-class variables
-* Imputing missing values with constant
-* Oversampling minority data
-* Training classification model
-* Evaluating the result
+Predicting purchasing probability of dataset
 
 Created on Fri Jun 19 2020
 @author: Ruoyu ZHU
@@ -77,46 +70,48 @@ class DataPredicting():
             training_cols = list(pd.read_csv(trancol_file)['training_columns'])
         
         def fix_columns(training_cols, X):  
-            
+            # make sure we have all the columns we need
             def add_missing_dummy_columns(training_cols, X):
                 missing_cols = set(training_cols) - set(X.columns)
+                if missing_cols:
+                    logger.warning("There are missing columns to add: %s", str(list(missing_cols)))
                 for c in missing_cols:
-                    X[c] = 0
-                return X, missing_cols             
+                    X[c] = 0.5
+                return X, missing_cols            
             
             X, missing_cols = add_missing_dummy_columns(training_cols, X)
             X = X[training_cols]
 
-            # make sure we have all the columns we need
-            if set(training_cols) - set(X.columns) == set():
-                logger.debug('Add missing columns')
-                
             extra_cols = set(X.columns) - set(training_cols) 
             if extra_cols:
-                logger.warning("There are extra columns: %s", str(extra_cols))
-            
-            return X
-
+                logger.warning("There are extra columns: %s", str(list(extra_cols)))            
+            return X, missing_cols
         
-        self.X = fix_columns(training_cols, self.X)   
+        self.X, missing_cols = fix_columns(training_cols, self.X)
         
+        # check if all the columns are None or missing
+        if len(list(missing_cols)) == len(list(self.X.columns)):
+            logger.critical('All input columns of model others are missing!')
+            sys.exit(1)
+        elif list(self.X.T.isna().all(axis = 1).unique()) == [True]:
+            logger.critical('All input columns are None!')
+            sys.exit(1)
+        else:
+            pass
+                 
         # Impute missing value with 0.5
         self.X = self.X.fillna(0.5)
         self.mobiles = self.X.index
         logger.info('Autohome features preprocessed end!')
-
+        
         
     def predicting(self, pca_filepath, model_filepath):
-        try:
-            self.pca = joblib.load(pca_filepath)
-            self.rf_best_model = joblib.load(model_filepath)
-            self.X = self.pca.fit_transform(self.X)
-            self.Y = self.rf_best_model.predict_proba(self.X)
-            result = pd.DataFrame([i[1] for i in self.Y],index = self.mobiles, columns = ['pred_score'])
-            result = result.reset_index()
-            result['result_date'] = pd.datetime.now()
-            result['pt'] = datetime.date.today().strftime("%Y%m%d")
-            logger.info('Autohome predicted end!')
-            return result
-        except:
-            logger.critical('Prediction of model autohome was not fisnished!')           
+        self.pca = joblib.load(pca_filepath)
+        self.rf_best_model = joblib.load(model_filepath)
+        self.X = self.pca.fit_transform(self.X)
+        self.Y = self.rf_best_model.predict_proba(self.X)
+        result = pd.DataFrame([i[1] for i in self.Y], index = self.mobiles, columns = ['pred_score'])
+        result = result.reset_index()
+        result['result_date'] = pd.datetime.now()
+        logger.info('Autohome predicted end!')
+        return result

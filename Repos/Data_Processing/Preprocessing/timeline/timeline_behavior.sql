@@ -1,4 +1,4 @@
-
+set tez.queue.name=${queuename};
 
 INSERT OVERWRITE TABLE `marketing_modeling.app_timeline_behavior` PARTITION(pt='${pt}')
 select 
@@ -16,7 +16,7 @@ from (
 	concat ('{\"info\":\"',a.c_last_trail_time, '\",\"dt\":\"', a.c_last_trail_time, '\"}') as last_trail_time,
 	concat ('{\"info\":\"',c.ttl_d7, '\",\"dt\":\"', current_timestamp(), '\"}') as browse_time_d7,
 	concat ('{\"info\":\"',1, '\",\"dt\":\"', d.ts, '\"}') as finance_click
-	FROM marketing_modeling.app_big_wide_info a
+	FROM (select a.mobile,a.c_last_trail_time from marketing_modeling.app_big_wide_info where pt='${pt}') a
 	left join 
 	marketing_modeling.mm_dmp_user_info b
 	on a.mobile = b.phone and b.rn = 1

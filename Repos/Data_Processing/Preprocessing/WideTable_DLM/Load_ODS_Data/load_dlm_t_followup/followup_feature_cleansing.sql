@@ -1,6 +1,6 @@
-set mapreduce.map.memory.mb=8192;
-set mapreduce.reduce.memory.mb=8192;
-set mapreduce.job.queuename=${queuename};
+--set mapreduce.map.memory.mb=8192;
+--set mapreduce.reduce.memory.mb=8192;
+set tez.queue.name=${queuename};
 
 ---- 跟进信息清洗
 DROP TABLE IF EXISTS marketing_modeling.tmp_dlm_followup_cleansing;
