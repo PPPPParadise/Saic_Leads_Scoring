@@ -80,6 +80,6 @@ SELECT
   c_register_time,
   c_last_reach_platform
 FROM marketing_modeling.app_big_wide_info
-WHERE mobile regexp "^[1][35678][0-9]{9}$"
+WHERE mobile regexp "^[1][3456789][0-9]{9}$"
 AND d_leads_pool_status IS NOT NULL
 AND pt='${pt}';
