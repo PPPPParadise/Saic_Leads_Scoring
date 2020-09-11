@@ -7,7 +7,7 @@ set tez.queue.name=${queuename};
 DROP TABLE IF EXISTS marketing_modeling.tmp_dlm_task_item_cleansing_1;
 CREATE TABLE marketing_modeling.tmp_dlm_task_item_cleansing_1 as 
 with tk as (
-    select id 
+    select id
     from dtwarehouse.ods_smcsc_tsk_task a 
     where pt='${pt}' 
       and a.task_type = '001'
@@ -49,6 +49,14 @@ t4 as (
     from 
         dtwarehouse.ods_smcsc_tsk_task_item_ext 
     where pt='${pt}' and created_time >= '${beginTime}'
+),
+t5 as (
+    select id
+    from dtwarehouse.ods_smcsc_tsk_task a 
+    where pt='${pt}' 
+      and a.task_type in ('003','004')
+      and a.created_time >= '${beginTime}'
+	 group by id
 )
 select 
     t2.task_id,
@@ -61,13 +69,15 @@ select
     t1.call_id,
     t1.connid,
     t1.is_sued,
-    t1.created_time
+    t1.created_time,
+	case when t5.id is not null then '003' else null end as task_type
 from 
-    t1,t2,t3,t4,tk
+    t1,t2,t3,t4,t5,tk
 where t1.rn = 1
   and t1.task_item_id = t2.id
   and t2.task_id = tk.id
   and t2.cust_id = t3.id
   and t2.id = t4.task_item_id
+  and t1.id = t5.id
   and t4.brand = 'MG'
 ;

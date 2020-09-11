@@ -22,6 +22,10 @@ SELECT
 		when a.ob_result_code = '011' then 1
 		else 0
 	end as is_connect_status,
+	case 
+		when a.task_type in ('003','004') then 1
+		else 0
+	end as failed_call_client,
     a.ob_count,
     a.call_id,
     a.connid,

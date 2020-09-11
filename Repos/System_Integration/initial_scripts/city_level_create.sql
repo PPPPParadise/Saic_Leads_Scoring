@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS marketing_modeling.edw_city_level; 
 create external table if not exists marketing_modeling.edw_city_level (
     province string,
     city_name string,

@@ -12,7 +12,7 @@ SELECT * FROM
 		ROW_NUMBER() OVER(PARTITION BY a.id ORDER BY a.leads_create_time desc) AS rn
 	FROM 
 		marketing_modeling.tmp_autohome_behavior a 
-	WHERE id regexp "^[1][35678][0-9]{9}$"
+	WHERE id regexp "^[1][3-9][0-9]{9}$"
 ) a1 
 WHERE a1.rn = 1
 ;

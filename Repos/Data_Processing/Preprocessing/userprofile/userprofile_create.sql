@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS `marketing_modeling.edw_mkt_userprofile`;
-CREATE TABLE if not exists `marketing_modeling.edw_mkt_userprofile`(
+CREATE EXTERNAL TABLE if not exists `marketing_modeling.edw_mkt_userprofile`(
      mobile                      string COMMENT  "手机"
     ,sex                         string COMMENT  "性别"
     ,city                        string COMMENT  "城市"
@@ -10,7 +10,7 @@ CREATE TABLE if not exists `marketing_modeling.edw_mkt_userprofile`(
     ,visited                     int    COMMENT  "是否到店"
     ,trail_booking_ttl           string COMMENT  "预定试驾总次数"
     ,last_trail_time             string COMMENT  "最近试驾时间"
-    ,car_model_ttl               string COMMENT  "关注车型数"
+    ,car_model_ttl               string COMMENT  "留资车系数量"
     ,no_deal                     string COMMENT  "未成交"
     ,buying_goal                 string COMMENT  "购买目的"
     ,loan_ppt                    string COMMENT  "贷款概率"
@@ -19,13 +19,18 @@ CREATE TABLE if not exists `marketing_modeling.edw_mkt_userprofile`(
     ,change_and_buy_ppt          string COMMENT  "是否换购概率"
     ,focus_models                string COMMENT  "关注车系"
     ,budget                      string COMMENT  "预算"
---    ,model_nums                  string COMMENT  "车型数量"
---    ,media_source                string COMMENT  "媒体投放渠道"
-    ,media_content               string COMMENT  "媒体投放内容"
+    ,model_nums                  string COMMENT  "关注竞品数量"
     ,prob		                 string COMMENT  "意向度"
     ,outbound                    int    COMMENT  "是否外呼"
 	,trail_attend_ttl			 int 	COMMENT  "试驾次数"
 	,visit_ttl					 int 	COMMENT  "到店次数"
+	,buying_rate				 int	COMMENT  "购车阶段（百分比）"
+	,device_id					 string
+	,union_id					 string
+	,cookies					 string
+	,fail_reason_fir_level		 array<string> COMMENT  "战败一级原因"
+	,fail_reason_sec_level 		 array<string>	COMMENT  "战败二级原因"
+	
 	)
 PARTITIONED BY(`pt`  string)
 ROW FORMAT SERDE 

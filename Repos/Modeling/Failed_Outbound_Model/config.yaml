@@ -1,0 +1,37 @@
+# Created on Aug 31 2020
+# Created by Xiaofeng XU
+
+# Config.file consists of six parts:
+# Part-1 Input data: big wide table that contains all features of model needed
+# Part-2 Model files: all model files
+# Part-3 Input data columns
+# Part-4 Columns used in data preparation part
+# Part-5 Supporting data in feature engineering part
+# Part-6 Columns used in model predicting part
+
+
+# Part 1 - Input tables :
+input_data:
+ golden_dealer_list: 'Input_Data/SIS下发经销商名单.xlsx'
+ city_level: 'Input_Data/city_level.txt'
+ 
+# Part 2 - Model files:
+model_files:
+ xgb_model_1: 'Model_File/xgb_model1.pkl'
+ xgb_model_2: 'Model_File/xgb_model2.pkl'
+ 
+# Part 3 - Columns used in model predicting part
+cols_used: 'Input_Data/Input_Columns.txt'
+
+# Part 4 - Outbound list information
+outbound_list_info:
+ is_direct_follow: '0'
+ oppor_brand: 'MG'
+ first_source: '大数据平台'
+ second_source: '金线索'
+ activity_name: '智能外呼战败挽回'
+ scirpt_id: "1000"
+ adress: ""
+ oppor_purchase_time: ""
+ own_vehicle: ""
+ existing_vehicles_age: ""

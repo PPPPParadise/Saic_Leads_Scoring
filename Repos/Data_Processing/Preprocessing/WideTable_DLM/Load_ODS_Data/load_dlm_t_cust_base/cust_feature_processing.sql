@@ -12,9 +12,11 @@ SELECT
 	a.last_time,             --最后建卡时间
 --	a.deal_flag,             -- 是否成交
 	c.total as card_ttl,     -- 总建卡次数
-	c.cust_ids,
+	c.cust_ids,              -- 总建卡IDS
 	c.last_followup_time,    --最后跟进时间
-	c.clue_issued_times        -- 线索总下发次数     
+	c.cust_dealer_ids,       --建卡经销商IDS    add by 20200715
+	c.clue_issued_times,        -- 线索总下发次数 
+	d.max_cust_level 		 -- 最大意向级别 add by 20200824
 FROM
 	(
 		SELECT
@@ -43,10 +45,14 @@ FROM
 			mobile,
 			count(distinct cust_id) as total,   
 			collect_set(cust_id) as cust_ids,
+			collect_set(dealer_id) as cust_dealer_ids,
 			sum(followup_amount) as clue_issued_times,
 			max(last_followup_time) as last_followup_time
 		FROM 
 			marketing_modeling.tmp_dlm_cust_cleansing 
 		 group by mobile
-	 ) c on a.mobile = c.mobile 
+	 ) c on a.mobile = c.mobile
+	left join
+		marketing_modeling.tmp_dlm_cust_cleansing2 d
+	on a.mobile = d.mobile
 	 ;

@@ -9,7 +9,17 @@ else
 fi   
 echo "====================-cdp_middle_tb.sql start_1......" 
 hive -hivevar pt=$pt -hivevar queuename=$queuename -f cdp_middle_tb.sql
-echo "====================-cdp_mapping_tb.sql start._2....."
+if [ $? -ne 0 ];then 
+    echo "cdp_middle_tb.sql 处理失败。code=$?";
+    exit 1; 
+else
+    echo "====================-cdp_mapping_tb.sql start._2....."
+fi
 hive -hivevar pt=$pt -hivevar queuename=$queuename -f cdp_mapping_tb.sql
-echo "====================-cdp_final_tb.sql start._3....."
+if [ $? -ne 0 ];then 
+    echo "cdp_mapping_tb.sql 处理失败。code=$?";
+    exit 1; 
+else
+    echo "====================-cdp_final_tb.sql start._3....."
+fi
 hive -hivevar queuename=$queuename -f cdp_final_tb.sql

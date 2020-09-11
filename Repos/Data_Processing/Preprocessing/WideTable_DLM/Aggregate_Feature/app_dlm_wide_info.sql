@@ -63,4 +63,5 @@ left join
 	marketing_modeling.tmp_dlm_feature_join_4 a4 on a1.mobile = a4.mobile
 left join 
 	marketing_modeling.tmp_leads_pool_status a5 on a1.mobile = a5.mobile
+WHERE a1.mobile regexp "^[1][3-9][0-9]{9}$"
 ;

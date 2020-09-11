@@ -12,6 +12,7 @@ select
 	a.dealer_id,
 	a.oppor_id,
 	a.followup_id,
+	a.fail_desc,    -- add by 20200715
 	a.create_time,
 	ROW_NUMBER() OVER(PARTITION BY a.cust_id ORDER BY a.create_time desc) AS rn 
 from 

@@ -1,4 +1,4 @@
-# coding:utf-8
+ï»¿# coding:utf-8
 
 import json
 import sys
@@ -11,8 +11,8 @@ from pyspark.sql.types import StringType, IntegerType
 # UDF
 def get_config_prefer(arr):
     prefer = []
-    for s in arr.encode('utf-8').split('¡¢'):
-        if 'ÆûÓÍ' in s or '²ñÓÍ' in s or 'µç¶¯' in s or 'ÓÍµç»ìºÏ' in s:
+    for s in arr.encode('utf-8').split('ã€'):
+        if 'æ±½æ²¹' in s or 'æŸ´æ²¹' in s or 'ç”µåŠ¨' in s or 'æ²¹ç”µæ··åˆ' in s:
             prefer.append(s.decode('utf-8'))
     return '|'.join(prefer)
 
@@ -20,14 +20,14 @@ def get_config_prefer(arr):
 def get_car_usage(arr):
     usage = []
     arr = arr.encode('utf-8')
-    for s in arr.split('¡¢'):
-        if s != '»»³µÔö¹º':
+    for s in arr.split('ã€'):
+        if s != 'æ¢è½¦å¢è´­':
             usage.append(s.decode('utf-8'))
     return '|'.join(usage)
 
 
 def is_change_car_and_buy(arr):
-    if '»»³µÔö¹º' not in arr.encode('utf-8'):
+    if 'æ¢è½¦å¢è´­' not in arr.encode('utf-8'):
         return 0
     else:
         return 1
@@ -86,7 +86,7 @@ def get_proportion(focus_car, arg):
             for name in car.keys():
                 proportion = int(car.get(name))
                 name = name.encode('utf-8')
-                if 'MG' in name or 'mg' in name or 'Ãû¾ô' in name:
+                if 'MG' in name or 'mg' in name or 'åçˆµ' in name:
                     mg += proportion
                 else:
                     others += proportion
@@ -95,7 +95,7 @@ def get_proportion(focus_car, arg):
             for name in car.keys():
                 proportion = int(car.get(name))
                 name = name.encode('utf-8')
-                if 'MG' in name or 'mg' in name or 'Ãû¾ô' in name:
+                if 'MG' in name or 'mg' in name or 'åçˆµ' in name:
                     if proportion > mg:
                         mg = proportion
                 else:
@@ -105,18 +105,18 @@ def get_proportion(focus_car, arg):
 
 
 def get_list(items, arg):
-    item_list = items.encode('utf-8').split('¡¢')
+    item_list = items.encode('utf-8').split('ã€')
     result = []
     func = {
-        '¿Õ¼ä': 1, 'Íâ¹Û': 2, 'ĞÔ¼Û±È': 3, '²Ù¿Ø': 4, '¶¯Á¦': 5, 'ÄÚÊÎ': 6, 'ÄÜºÄ': 7, 'ÊæÊÊĞÔ': 8, 'ÓÍºÄ': 9
+        'ç©ºé—´': 1, 'å¤–è§‚': 2, 'æ€§ä»·æ¯”': 3, 'æ“æ§': 4, 'åŠ¨åŠ›': 5, 'å†…é¥°': 6, 'èƒ½è€—': 7, 'èˆ’é€‚æ€§': 8, 'æ²¹è€—': 9
     }
     car_tp = {
-        '¹¤Ğ½´ú²½': 1, '¹«ÓÃÉÌÎñ': 2, 'Ô½Ò°×Ô¼İ': 3, '»»³µÔö¹º': 4, '¼ÒÍ¥³öÓÎ': 5, 'ºÀ»ª·ç·¶': 6
+        'å·¥è–ªä»£æ­¥': 1, 'å…¬ç”¨å•†åŠ¡': 2, 'è¶Šé‡è‡ªé©¾': 3, 'æ¢è½¦å¢è´­': 4, 'å®¶åº­å‡ºæ¸¸': 5, 'è±ªåé£èŒƒ': 6
     }
     config = {
-        'È«¾°Ìì´°': 1, 'µç¶¯Ìì´°': 2, 'µç¶¯µ÷½Ú×ùÒÎ': 3, '³µÉíESP': 4, 'ğŞÆø´óµÆ': 5, 'GPSµ¼º½': 6, '¶¨ËÙÑ²º½': 7,
-        'ÕæÆ¤×ùÒÎ': 8, 'µ¹³µÀ×´ï': 9, 'È«×Ô¶¯¿Õµ÷': 10, '¶à¹¦ÄÜ·½ÏòÅÌ': 11, 'LED´óµÆ': 12, 'µ¹³µÓ°Ïñ': 13, 'ÎŞÔ¿³×Æô¶¯': 14,
-        '×ùÒÎ¼ÓÈÈ': 15, 'ÈÕ¼äĞĞ³µµÆ': 16, '×Ô¶¯²´³µ': 17, 'À¶ÑÀ/³µÔØµç»°': 18
+        'å…¨æ™¯å¤©çª—': 1, 'ç”µåŠ¨å¤©çª—': 2, 'ç”µåŠ¨è°ƒèŠ‚åº§æ¤…': 3, 'è½¦èº«ESP': 4, 'ç–æ°”å¤§ç¯': 5, 'GPSå¯¼èˆª': 6, 'å®šé€Ÿå·¡èˆª': 7,
+        'çœŸçš®åº§æ¤…': 8, 'å€’è½¦é›·è¾¾': 9, 'å…¨è‡ªåŠ¨ç©ºè°ƒ': 10, 'å¤šåŠŸèƒ½æ–¹å‘ç›˜': 11, 'LEDå¤§ç¯': 12, 'å€’è½¦å½±åƒ': 13, 'æ— é’¥åŒ™å¯åŠ¨': 14,
+        'åº§æ¤…åŠ çƒ­': 15, 'æ—¥é—´è¡Œè½¦ç¯': 16, 'è‡ªåŠ¨æ³Šè½¦': 17, 'è“ç‰™/è½¦è½½ç”µè¯': 18
     }
     if arg == 'func':
         for item in item_list:
@@ -138,7 +138,7 @@ def get_list(items, arg):
 
 
 def get_level_or_volume(config, arg):
-    conf_list = config.encode('utf-8').split('¡¢')
+    conf_list = config.encode('utf-8').split('ã€')
     if len(conf_list) > 2:
         if arg == 'level':
             return conf_list[0].decode('utf-8')
@@ -178,18 +178,18 @@ def get_inquiry_time(inq, arg):
 
 def get_production(config):
     config = config.encode('utf-8')
-    if '¹ú²ú' in config:
-        return '¹ú²ú'.decode('utf-8')
-    if '½ø¿Ú' in config:
-        return '½ø¿Ú'.decode('utf-8')
-    if 'ºÏ×Ê' in config:
-        return 'ºÏ×Ê'.decode('utf-8')
+    if 'å›½äº§' in config:
+        return 'å›½äº§'.decode('utf-8')
+    if 'è¿›å£' in config:
+        return 'è¿›å£'.decode('utf-8')
+    if 'åˆèµ„' in config:
+        return 'åˆèµ„'.decode('utf-8')
     return ''
 
 
 def get_config_size(config):
     config = config.encode('utf-8')
-    return len(config.split('¡¢'))
+    return len(config.split('ã€'))
 
 
 def running(pt):
@@ -214,7 +214,7 @@ def running(pt):
     hc.udf.register("get_production", get_production, StringType())
     hc.udf.register("get_config_size", get_config_size, IntegerType())
 
-    # »ñÈ¡ËùÓĞÆû³µÖ®¼ÒÏßË÷
+    # è·å–æ‰€æœ‰æ±½è½¦ä¹‹å®¶çº¿ç´¢
     sql = """
         select 
             mobile as id,

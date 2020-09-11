@@ -14,7 +14,8 @@ SELECT
 	c.visit_ttl,           --	总到店次数
 	round(datediff(c.last_time,a.first_time)/c.visit_ttl,2) as avg_visit_date,         --平均到店时间间隔
 	c.dealer_ids,      
-	d.avg_visit_dtbt_count   --	平均每个经销商处到店次数  
+	d.avg_visit_dtbt_count,   --	平均每个经销商处到店次数
+	e.last_time as last_visit_time -- 最后到店时间 0824
 FROM
 	(
 		SELECT
@@ -60,6 +61,15 @@ FROM
 				marketing_modeling.tmp_dlm_hall_flow_cleansing 
 			 group by mobile,dealer_id) d1
 		group by d1.mobile
-	 ) d on a.mobile = d.mobile 
+	 ) d on a.mobile = d.mobile
+	  left join
+	  (
+		SELECT
+			mobile,
+			max(arrive_time) as last_time
+		FROM
+			marketing_modeling.tmp_dlm_hall_flow_cleansing 
+		group by mobile
+	) e on a.mobile = e.mobile
 	 ;
 	 

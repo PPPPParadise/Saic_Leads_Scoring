@@ -16,14 +16,18 @@ SELECT
 	a.tel_duration as tel_duration,
 	a.allocate_status as allocate_status,
 	a.create_time as create_time,
+	a.first_resource_name as first_resource_name,
+	a.second_resource_name as second_resource_name,
 	MAX(a.create_time) OVER(PARTITION BY a.mobile) as last_time,
-	ROW_NUMBER() OVER(PARTITION BY a.mobile ORDER BY a.create_time) AS rn
+	ROW_NUMBER() OVER(PARTITION BY a.mobile ORDER BY a.create_time) AS rn,
+	ROW_NUMBER() OVER(PARTITION BY a.mobile ORDER BY a.create_time desc) AS rn2
 FROM 
     (
 		select * from dtwarehouse.ods_dlm_t_potential_customer_leads_m 
 		WHERE create_time >= '${beginTime}' 
-        AND length(replace(mobile,'+86','')) = 11
-		and pt = '${pt}'
+        -- AND length(replace(mobile,'+86','')) = 11
+		AND mobile regexp "^[1][3-9][0-9]{9}$"
+		AND pt = '${pt}'
 	) a,
 	(select * from dtwarehouse.ods_rdp_v_sales_region_dealer where pt = '${pt}') b 
 where a.dealer_id = b.dlm_org_id and b.brand_id = 121 -- 经销商主表  

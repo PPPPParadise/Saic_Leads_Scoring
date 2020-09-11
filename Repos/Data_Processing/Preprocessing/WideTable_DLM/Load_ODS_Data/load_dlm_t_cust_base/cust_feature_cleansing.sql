@@ -26,11 +26,22 @@ FROM
 		SELECT * FROM dtwarehouse.ods_dlm_t_cust_base           -- 建卡表
 		WHERE create_time >= '${beginTime}' 
 		  -- AND length(replace(mobile,'+86','')) = 11
-		  AND mobile regexp "^[1][35678][0-9]{9}$"		  
+		  AND mobile regexp "^[1][3-9][0-9]{9}$"		  
 		  AND pt = '${pt}'
 	) a,
 	(SELECT * FROM dtwarehouse.ods_rdp_v_sales_region_dealer WHERE pt = '${pt}') b 
 WHERE a.dealer_id = b.dlm_org_id 
   AND b.brand_id = 121
  ;
+ 
 
+DROP TABLE IF EXISTS marketing_modeling.tmp_dlm_cust_cleansing2;
+CREATE TABLE marketing_modeling.tmp_dlm_cust_cleansing2 as
+SELECT
+	mobile,
+	MAX(cust_level) as max_cust_level
+FROM
+	marketing_modeling.tmp_dlm_cust_cleansing
+group by mobile
+;
+	

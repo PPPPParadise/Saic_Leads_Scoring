@@ -1,5 +1,4 @@
 set tez.queue.name=${queuename};
-
 DROP TABLE IF EXISTS marketing_modeling.tmp_dlm_followup_d90;
 
 CREATE TABLE marketing_modeling.tmp_dlm_followup_d90 as 

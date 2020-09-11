@@ -18,6 +18,9 @@ SELECT
 	a.leads_dtbt_coincide,   -- 留资经销商重合度
 	a.leads_dtbt_level_1,    -- 一级经销商留资数量
 	a.leads_dtbt_level_2,    -- 二级经销商留资数量
+	a.latest_first_source_name, --最新一级来源 0824
+	a.latest_second_source_name, -- 最新二级来源 0824
+	a.source_count,				-- 一级来源加二级来源数量 0824
 	b.cust_type,        --客户属性 (个人或企业)
 	b.fir_card_time,    -- 首次建卡时间
 	b.last_time as last_card_time,   -- 最后一次建卡时间
@@ -25,13 +28,16 @@ SELECT
 	b.card_ttl,         -- 总建卡次数
 	b.cust_ids,         -- 建卡ID数组
 	b.clue_issued_times,        -- 线索总下发次数 
+	b.cust_dealer_ids,                                -- add by 20200716
+	b.max_cust_level,		-- 最大意向级别 		  -- add by 0824
 	c.fir_visit_time,       --	首次到店时间
 	c.fir_sec_visit_diff,   ---	首次到店时间与二次到店时间日期差值
 	c.visit_dtbt_count,     --	到店总经销商数量
 	c.visit_ttl,            --	总到店次数
 	c.avg_visit_date,       --平均到店时间间隔
 	c.dealer_ids,           -- 经销商ID数组
-	c.avg_visit_dtbt_count, --	平均每个经销商处到店次数  
+	c.avg_visit_dtbt_count, --	平均每个经销商处到店次数 
+	c.last_visit_time,		-- 最后到店时间    add by 0824
 	d.followup_ttl,         -- 总跟进次数
 	e.fir_trail,            --- 首次试乘试驾时间
 	e.last_reservation_time,   -- 最后一次试驾预约试驾
@@ -49,7 +55,11 @@ SELECT
 	a4.deal_car_ttl,                -- 两年内总购买车辆数
 	a5.fir_dealfail_d,               -- 首次战败时间
 	a5.last_time as last_dealfail_d, -- 最后战败时间
+	a5.fail_desc_list,            -- 战败原因  -- add by 20200716
+	a5.fail_time_list,             -- 战败时间   -- add by 20200716
+	a5.deal_fail_times,				-- 战败次数  -- add bt 0824
 	a6.is_deposit_order,             --是否下定
+	a2.leads_car_model_count as mg_leads_car_model_count,		-- 留资车系数量 -- add by 0824
 	a7.deal_flag                     -- 是否成交 1-成交，0-战败，null-跟进
  	
 FROM

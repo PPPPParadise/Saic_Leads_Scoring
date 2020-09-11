@@ -11,7 +11,9 @@ SELECT
 	c.second_time,   -- 倒数第二次战败时间
 	a.last_time,    --最后战败时间   
 	b.fail_cust_count,   -- 卡号战败次数
-	b.total as deal_fail_times  --战败总次数
+	b.total as deal_fail_times,  --战败总次数
+	b.fail_desc_list,            -- 战败原因
+	b.fail_time_list             -- 战败时间
 FROM
 	(
 		SELECT
@@ -27,6 +29,8 @@ FROM
 		SELECT 
 			mobile,
 			count(*) as total,
+			collect_list(fail_desc) as fail_desc_list,     -- add by 20200715
+			collect_list(create_time) as fail_time_list,   -- add by 20200715
 			count(distinct cust_id) as fail_cust_count
 		FROM 
 			marketing_modeling.tmp_dlm_fail_cleansing2 

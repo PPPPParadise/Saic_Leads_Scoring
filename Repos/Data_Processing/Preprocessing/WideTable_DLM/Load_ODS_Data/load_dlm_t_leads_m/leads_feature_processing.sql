@@ -19,7 +19,10 @@ SELECT
 	round(c.leads_dtbt_count / c.leads_dtbt_total , 2) as leads_dtbt_coincide,  -- 留资经销商重合度
 	d.dealer_level_1 as leads_dtbt_level_1,    -- 一级经销商留资数量
 	d.dealer_level_2 as leads_dtbt_level_2,    -- 二级经销商留资数量
-	c.dealer_ids 
+	c.dealer_ids,
+	c.source_count, -- 0824
+	e.first_resource_name as latest_first_source_name, --0824
+	e.second_resource_name as latest_second_source_name --0824
 FROM 
 	(
 		SELECT
@@ -48,7 +51,8 @@ FROM
 			count(distinct channel) as channel_count,         -- 留资渠道总数
 			count(distinct dealer_id) as leads_dtbt_count,         -- 留资总经销商数
 			count(dealer_id) as leads_dtbt_total,
-			collect_set(dealer_id) as dealer_ids
+			collect_set(dealer_id) as dealer_ids,
+			(count(distinct first_resource_name)+count(distinct second_resource_name)) as source_count -- 一二级渠道总数 add by0824
 			-- count(distinct cust_id) as clue_issued_times
 		FROM 
 			marketing_modeling.tmp_dlm_leads_cleansing 
@@ -67,5 +71,16 @@ FROM
 			group by mobile,dealer_id,dealer_level) a
 		group by mobile
 	) d on a.mobile = d.mobile 
+	left join
+	(
+		select
+			mobile,
+			first_resource_name, -- 最新一级渠道 0824
+			second_resource_name -- 最新二级渠道0824
+		from
+			marketing_modeling.tmp_dlm_leads_cleansing
+		where 
+			rn2=1
+	) e on a.mobile = e.mobile
    ;
 

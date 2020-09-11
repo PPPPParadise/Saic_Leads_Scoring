@@ -16,10 +16,11 @@ from
 	marketing_modeling.tmp_dlm_cust_cleansing b 
 where 
 	pt = '${pt}'
-	and a.create_time >= '${beginTime}' 
-	AND length(replace(a.customer_tel,'+86','')) = 11
-	and a.customer_tel = b.mobile 
-	and a.dealer_id = b.dealer_id 
+	AND a.create_time >= '${beginTime}' 
+	-- AND length(replace(a.customer_tel,'+86','')) = 11
+	AND mobile regexp "^[1][3-9][0-9]{9}$"
+	AND a.customer_tel = b.mobile 
+	AND a.dealer_id = b.dealer_id 
 ;
   
 
