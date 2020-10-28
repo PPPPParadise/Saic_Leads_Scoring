@@ -1,0 +1,41 @@
+# Created on Oct 26 2020
+# Created by Xiaofeng XU
+
+# Config.file consists of six parts:
+# Part-1 Input data: big wide table that contains all features of model needed
+# Part-2 Model files: all model files
+# Part-3 Input data columns
+# Part-4 Model Parameters
+
+
+# Part 1 - Input tables :
+input_data:
+ city_level: '../Failed_Outbound_Model/Input_Data/city_level.txt'
+ 
+# Part 2 - Model files:
+model_files:
+ model_path: '../Failed_Outbound_Model/Model_File/'
+ xgb_model_1: 'xgb_model1.pkl'
+ xgb_model_2: 'xgb_model2.pkl'
+ 
+# Part 3 - Columns used in model predicting part
+cols_used: '../Failed_Outbound_Model/Input_Data/Input_Columns.txt'
+
+# Part 4 - Model Parameters
+xgb_parameters:
+ base_score: 0.045
+ sampling_method: gradient_based
+ colsample_bytree: 0.7
+ scale_pos_weight: 56
+ eval_metric: 'logloss'
+ reg: 'logistic'
+ n_estimators: 100
+ learning_rate: 0.23
+ max_depth: 3
+ subsample: 0.11
+ min_child_weight: 9
+ gamma: 0.1
+ colsample_bylevel: 0.94
+ colsamole_bynode: 1
+ reg_alpha: 0.05
+ reg_lambda: 0.33

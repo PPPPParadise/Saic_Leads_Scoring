@@ -57,11 +57,12 @@ def find_newest_model(path,name):
     return model
 
 ct_lv = pd.read_csv(config['input_data']['city_level'], sep = '\t',encoding = 'utf-8')
-
 model_1_path = find_newest_model('Model_File/','xgb_model1')
 model_2_path = find_newest_model('Model_File/','xgb_model2')
+
 logger.info('Loaded Model-1:%s',model_1_path)
 logger.info('Loaded Model-2:%s',model_2_path)
+
 xgb_model_1 = joblib.load(model_1_path)
 xgb_model_2 = joblib.load(model_2_path)
 
@@ -187,19 +188,4 @@ logger.info('Model Running - lowest pred score with duplicates:{}'.format(result
 result_slc_info = result_slc[['mobile','pred_score','score_rank']].merge(info, on = 'mobile', how='left')
 result_slc_info = result_slc_info.replace(np.nan, " ")
 
-###############################
-#       Save Result     #
-##############################
-hc.sql("set hive.exec.dynamic.partition.mode = nonstrict")
-hc.sql("set hive.exec.dynamic.partition = true")
-
-pred_result_spark = hc.createDataFrame(result_slc_info)
-pred_result_spark  = pred_result_spark.createOrReplaceTempView("tmp_failed_result")
-dropstr = """DROP TABLE IF EXISTS marketing_modeling.tmp_failed_model_result"""
-hc.sql(dropstr)
-insertsql= """
-	create table marketing_modeling.tmp_failed_model_result as
-	select * from tmp_failed_result
-"""
-hc.sql(insertsql)
-logger.info('Save Result - Result Saved')
+print(result_slc_info.head())
