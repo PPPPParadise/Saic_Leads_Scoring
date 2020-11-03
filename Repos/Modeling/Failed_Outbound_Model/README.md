@@ -12,7 +12,7 @@
     |──city_level.txt                          # 城市分级标准（第一财经2019年发布）
 ├──Outbound_List_Generation.py                # 特征工程和模型预测过程运行脚本
 ├──Outbound_Info_Generation.py                # 匹配经销商等标签信息，执行更换经销商过程，外呼名单sftp文件传输
-├──Model_File                        # 预训练好的模型文件，除首次上线的模型文件命名方式不一样之外，其他模型文件命名方式为{pt_date}_xgb_model1/{pt_date}_xgb_model2
+├──Model_File                        # 预训练好的模型文件
 ```
 
 ### 2. 模型运行
