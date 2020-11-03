@@ -2,10 +2,10 @@
 ```python
 ├──README.md
 ├──config.yaml
-├──Training_Data                   # 存储Feature_Engineering.py执行结束之后产生的一张临时线下表outbound_features.csv，每次训练过程产生的新临时表会直接覆盖旧表
-├──Feature_Engineering.py          # 特征工程运行脚本
-├──Model_Running.py                # 预测过程运行脚本，训练生成的模型文件会存入Modeling/Failed_Outbound_Model/Model_File
-├──Model_Performance.csv           # 存储每次模型训练的test set表现，包括accuracy/precision/recall/f1四个score
+├──Training_Data            # 存储Feature_Engineering.py执行结束之后产生的一张临时线下表outbound_features.csv，每次训练过程产生的新临时表会直接覆盖旧表
+├──Feature_Engineering.py   # 特征工程运行脚本
+├──Model_Running.py         # 预测过程运行脚本，训练生成的模型文件会存入Modeling/Failed_Outbound_Model/Model_File
+├──Model_Performance.csv    # 存储每次模型训练的test set表现，包括accuracy/precision/recall/f1四个score
 ```
 
 ### 2. 模型数据输入
