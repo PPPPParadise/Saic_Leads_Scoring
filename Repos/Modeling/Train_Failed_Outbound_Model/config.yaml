@@ -6,7 +6,19 @@
 # Part-2 Model files: all model files
 # Part-3 Input data columns
 # Part-4 Model Parameters
-
+# - base_score:对于所有样本预测为正样本的全局偏置（一般是正样本/所有样本）
+# - colsample_bytree: 树的特征采样比例
+# - scale_pos_weight: 不平衡参数
+# - n_estimators: 学习器的个数
+# - learning_rate: 学习率
+# - max_depth: 每棵树的深度
+# - subsample: 子采样
+# - min_child_weight: 最小节点权重阈值
+# - gamma: 损失减小阈值
+# - colsample_bylevel: 某一层的特征采样比例
+# - colsamole_bynode: 某一个节点的特征采样比例
+# - reg_alpha: L1正则化参数
+# - reg_lambda: L2正则化参数
 
 # Part 1 - Input tables :
 input_data:
